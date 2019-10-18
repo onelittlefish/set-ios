@@ -100,7 +100,7 @@ class SetViewController: UIViewController, UICollectionViewDataSource, UICollect
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
 
         cell.selectedBackgroundView = UIView(frame: cell.frame)
-        cell.selectedBackgroundView?.backgroundColor = UIColor(white: 0.9, alpha: 1)
+        cell.selectedBackgroundView?.backgroundColor = UIColor.selectedCardBackgroundColor()
 
         if let cardCell = cell as? CardCollectionViewCell {
             let symbolView = CardSymbolView(frame: cell.bounds, card: game.deal[indexPath.row])
