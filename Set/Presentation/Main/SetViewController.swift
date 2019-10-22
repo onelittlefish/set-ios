@@ -11,7 +11,8 @@ import UIKit
 class SetViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     private let reuseIdentifier = "Cell"
 
-    private var game = Game()
+    private var model: SetViewModel!
+
     private var selectedCards: [Card] = []
 
     private weak var summaryViewController: SummaryViewController!
@@ -20,6 +21,8 @@ class SetViewController: UIViewController, UICollectionViewDataSource, UICollect
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        model = SetViewModel(container: SetContainer.container)
 
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh,
             target: self, action: #selector(SetViewController.newGame))
@@ -43,14 +46,16 @@ class SetViewController: UIViewController, UICollectionViewDataSource, UICollect
             flowLayout.itemSize = CGSize(width: (view.bounds.size.width - margin * 4) / 3, height: 70)
         }
 
-        reloadSummary()
+        NotificationCenter.default.addObserver(self, selector: #selector(SetViewController.reloadCards), name: model.reloadCards, object: model)
+        NotificationCenter.default.addObserver(self, selector: #selector(SetViewController.reloadSummary), name: model.reloadSummary, object: model)
+
+        model.newGame()
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         if let summaryViewController = segue.destination as? SummaryViewController {
             self.summaryViewController = summaryViewController
-            summaryViewController.game = game
         }
     }
 
@@ -58,42 +63,38 @@ class SetViewController: UIViewController, UICollectionViewDataSource, UICollect
         return .lightContent
     }
 
-    @objc func addCards() {
-        game.dealMoreCards()
+    @objc private func addCards() {
+        model.addCards()
 
         collectionView.insertItems(at: [
-            IndexPath(row: game.deal.count - 3, section: 0),
-            IndexPath(row: game.deal.count - 2, section: 0),
-            IndexPath(row: game.deal.count - 1, section: 0)
+            IndexPath(row: model.deal.count - 3, section: 0),
+            IndexPath(row: model.deal.count - 2, section: 0),
+            IndexPath(row: model.deal.count - 1, section: 0)
             ])
         collectionView.scrollToItem(
-            at: IndexPath(row: game.deal.count - 1, section: 0),
+            at: IndexPath(row: model.deal.count - 1, section: 0),
             at: .bottom,
             animated: true
         )
-
-        reloadSummary()
     }
 
-    @objc func newGame() {
-        game = Game()
-        selectedCards = []
+    @objc private func newGame() {
+        model.newGame()
+    }
 
+    @objc private func reloadCards() {
         collectionView.reloadSections(IndexSet(integer: 0))
-
-        summaryViewController.game = game
-        reloadSummary()
     }
 
-    private func reloadSummary() {
+    @objc private func reloadSummary() {
         summaryViewController.collectionView?.reloadData()
-        navigationItem.rightBarButtonItem?.isEnabled = game.deck.count > 0
+        navigationItem.rightBarButtonItem?.isEnabled = model.addCardsEnabled
     }
 
     // MARK: - UICollectionViewDataSource
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return game.deal.count
+        return model.deal.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -103,7 +104,7 @@ class SetViewController: UIViewController, UICollectionViewDataSource, UICollect
         cell.selectedBackgroundView?.backgroundColor = UIColor.selectedCardBackgroundColor()
 
         if let cardCell = cell as? CardCollectionViewCell {
-            let symbolView = CardSymbolView(frame: cell.bounds, card: game.deal[indexPath.row])
+            let symbolView = CardSymbolView(frame: cell.bounds, card: model.deal[indexPath.row])
             symbolView.backgroundColor = .clear
             cardCell.cardSymbolView = symbolView
         }
@@ -114,26 +115,10 @@ class SetViewController: UIViewController, UICollectionViewDataSource, UICollect
     // MARK: - UICollectionViewDelegate
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let selectedCard = game.deal[indexPath.row]
-
-        if !selectedCards.contains(selectedCard) {
-            selectedCards.append(selectedCard)
-        }
-
-        if selectedCards.count == 3 {
-            if game.handlePossibleSet(selectedCards) {
-                selectedCards = []
-
-                collectionView.reloadSections(IndexSet(integer: 0))
-
-                reloadSummary()
-            }
-        }
+        model.selectCard(atIndex: indexPath.row)
     }
 
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        if let index = selectedCards.firstIndex(of: game.deal[indexPath.row]) {
-            selectedCards.remove(at: index)
-        }
+        model.deselectCard(atIndex: indexPath.row)
     }
 }

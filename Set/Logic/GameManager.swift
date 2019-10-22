@@ -1,14 +1,25 @@
 //
-//  Game.swift
+//  GameManager.swift
 //  Set
 //
-//  Copyright (c) 2019 Jihan. All rights reserved.
+//  Copyright © 2019 Jihan. All rights reserved.
 //
 
 import Foundation
 
-class Game {
+protocol GameManagerProtocol {
+    var deck: [Card] { get }
+    var deal: [Card] { get }
 
+    var numberOfSetsFound: Int { get }
+    var numberOfSetsInDeal: Int { get }
+
+    func newGame()
+    func dealMoreCards()
+    func handlePossibleSet(_ set: [Card]) -> Bool
+}
+
+class GameManager: GameManagerProtocol {
     private(set) var deck = Card.allCards()
     private(set) var deal: [Card] = []
 
@@ -16,6 +27,13 @@ class Game {
     private(set) var numberOfSetsInDeal = 0
 
     init() {
+        newGame()
+    }
+
+    func newGame() {
+        deck = Card.allCards()
+        deal = []
+
         shuffleDeck()
         deal = deal(12)
         numberOfSetsInDeal = numberOfSetsInDeal(deal)

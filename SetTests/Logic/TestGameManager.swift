@@ -8,10 +8,10 @@
 import XCTest
 @testable import Set
 
-class TestGame: XCTestCase {
+class TestGameManager: XCTestCase {
 
     func testIsSet() {
-        let game = Game()
+        let game = GameManager()
 
         XCTAssertTrue(game.isSet(validSetAllDifferent()), "Should be a set")
         XCTAssertTrue(game.isSet(validSetShapeDifferent()), "Should be a set")
@@ -21,7 +21,7 @@ class TestGame: XCTestCase {
     }
 
     func testNumberOfSets() {
-        let game = Game()
+        let game = GameManager()
 
         XCTAssertEqual(game.numberOfSetsInDeal(invalidSet()), 0, "Expected no sets")
         XCTAssertEqual(game.numberOfSetsInDeal(validSetAllDifferent()), 1, "Expected one set")
@@ -29,7 +29,7 @@ class TestGame: XCTestCase {
     }
 
     func testDealMoreCards() {
-        let game = Game()
+        let game = GameManager()
         let initialNumberOfSets = game.numberOfSetsInDeal
         XCTAssertEqual(game.deck.count, 69, "Deck size")
         XCTAssertEqual(game.deal.count, 12, "Deal size")
@@ -43,7 +43,7 @@ class TestGame: XCTestCase {
     }
 
     func testHandlePossibleSet() {
-        let game = Game()
+        let game = GameManager()
 
         // Ensure deal has a known set
         let dealSet = validSetShapeDifferent()
@@ -57,7 +57,7 @@ class TestGame: XCTestCase {
     }
 
     func testHandlePossibleSetNoDeal() {
-        let game = Game()
+        let game = GameManager()
 
         // Ensure deck will deal out a known set
         // Assuming cards will be dealt from the end of the deck
@@ -75,7 +75,7 @@ class TestGame: XCTestCase {
     }
 
     func testHandlePossibleSetEmptyDeck() {
-        let game = Game()
+        let game = GameManager()
 
         // Ensure deal has a known set
         let dealSet = validSetShapeDifferent()

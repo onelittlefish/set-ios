@@ -2,7 +2,7 @@
 //  UIColor+Set.swift
 //  Set
 //
-//  Copyright © 2015 Jihan. All rights reserved.
+//  Copyright © 2019 Jihan. All rights reserved.
 //
 
 import Foundation

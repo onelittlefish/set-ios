@@ -8,13 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		C458DC70196E7F860064E0C6 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = C458DC6E196E7F860064E0C6 /* Card.swift */; };
-		C458DC71196E7F860064E0C6 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = C458DC6F196E7F860064E0C6 /* Game.swift */; };
 		C458DC78196E7F980064E0C6 /* SetViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C458DC73196E7F980064E0C6 /* SetViewController.storyboard */; };
 		C458DC79196E7F980064E0C6 /* SetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C458DC74196E7F980064E0C6 /* SetViewController.swift */; };
 		C458DC7A196E7F980064E0C6 /* CardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C458DC76196E7F980064E0C6 /* CardCollectionViewCell.swift */; };
 		C458DC7B196E7F980064E0C6 /* CardSymbolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C458DC77196E7F980064E0C6 /* CardSymbolView.swift */; };
 		C458DC83196F1C6C0064E0C6 /* TestCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = C458DC82196F1C6C0064E0C6 /* TestCard.swift */; };
-		C458DC85196F1D5C0064E0C6 /* TestGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = C458DC84196F1D5C0064E0C6 /* TestGame.swift */; };
+		C458DC85196F1D5C0064E0C6 /* TestGameManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C458DC84196F1D5C0064E0C6 /* TestGameManager.swift */; };
+		C4597612235E93F60079638C /* Swinject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4597611235E93F60079638C /* Swinject.framework */; };
+		C4597613235E93F60079638C /* Swinject.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C4597611235E93F60079638C /* Swinject.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C4597616235E95830079638C /* SetContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4597615235E95830079638C /* SetContainer.swift */; };
+		C4597618235E95A00079638C /* GameManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4597617235E95A00079638C /* GameManager.swift */; };
+		C459761A235E971F0079638C /* SetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4597619235E971F0079638C /* SetViewModel.swift */; };
+		C459761C235E98830079638C /* SummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C459761B235E98830079638C /* SummaryViewModel.swift */; };
+		C459761E235EA0790079638C /* SwiftMockObject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C459761D235EA0790079638C /* SwiftMockObject.framework */; };
+		C4597620235EA08A0079638C /* MockGameManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C459761F235EA08A0079638C /* MockGameManager.swift */; };
+		C4597622235EA1480079638C /* TestSummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4597621235EA1480079638C /* TestSummaryViewModel.swift */; };
+		C4597625235EA3BE0079638C /* TestSetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4597624235EA3BE0079638C /* TestSetViewModel.swift */; };
 		C460603118A9B63700CC64D4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C460603018A9B63700CC64D4 /* Foundation.framework */; };
 		C460603318A9B63700CC64D4 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C460603218A9B63700CC64D4 /* CoreGraphics.framework */; };
 		C460603518A9B63700CC64D4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C460603418A9B63700CC64D4 /* UIKit.framework */; };
@@ -61,15 +70,37 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		C4597614235E93F60079638C /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				C4597613235E93F60079638C /* Swinject.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		C458DC6E196E7F860064E0C6 /* Card.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Card.swift; path = Models/Card.swift; sourceTree = "<group>"; };
-		C458DC6F196E7F860064E0C6 /* Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Game.swift; path = Models/Game.swift; sourceTree = "<group>"; };
+		C458DC6E196E7F860064E0C6 /* Card.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		C458DC73196E7F980064E0C6 /* SetViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SetViewController.storyboard; sourceTree = "<group>"; };
 		C458DC74196E7F980064E0C6 /* SetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetViewController.swift; sourceTree = "<group>"; };
 		C458DC76196E7F980064E0C6 /* CardCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardCollectionViewCell.swift; sourceTree = "<group>"; };
 		C458DC77196E7F980064E0C6 /* CardSymbolView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardSymbolView.swift; sourceTree = "<group>"; };
 		C458DC82196F1C6C0064E0C6 /* TestCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestCard.swift; sourceTree = "<group>"; };
-		C458DC84196F1D5C0064E0C6 /* TestGame.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestGame.swift; sourceTree = "<group>"; };
+		C458DC84196F1D5C0064E0C6 /* TestGameManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestGameManager.swift; sourceTree = "<group>"; };
+		C4597611235E93F60079638C /* Swinject.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Swinject.framework; path = Carthage/Build/iOS/Swinject.framework; sourceTree = "<group>"; };
+		C4597615235E95830079638C /* SetContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetContainer.swift; sourceTree = "<group>"; };
+		C4597617235E95A00079638C /* GameManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameManager.swift; sourceTree = "<group>"; };
+		C4597619235E971F0079638C /* SetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetViewModel.swift; sourceTree = "<group>"; };
+		C459761B235E98830079638C /* SummaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryViewModel.swift; sourceTree = "<group>"; };
+		C459761D235EA0790079638C /* SwiftMockObject.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftMockObject.framework; path = Carthage/Build/iOS/SwiftMockObject.framework; sourceTree = "<group>"; };
+		C459761F235EA08A0079638C /* MockGameManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockGameManager.swift; sourceTree = "<group>"; };
+		C4597621235EA1480079638C /* TestSummaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSummaryViewModel.swift; sourceTree = "<group>"; };
+		C4597624235EA3BE0079638C /* TestSetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSetViewModel.swift; sourceTree = "<group>"; };
 		C460602D18A9B63700CC64D4 /* Set.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Set.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C460603018A9B63700CC64D4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C460603218A9B63700CC64D4 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -93,6 +124,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C460603318A9B63700CC64D4 /* CoreGraphics.framework in Frameworks */,
+				C4597612235E93F60079638C /* Swinject.framework in Frameworks */,
 				C460603518A9B63700CC64D4 /* UIKit.framework in Frameworks */,
 				C460603118A9B63700CC64D4 /* Foundation.framework in Frameworks */,
 			);
@@ -105,30 +137,86 @@
 				C460604A18A9B63700CC64D4 /* XCTest.framework in Frameworks */,
 				C460604C18A9B63700CC64D4 /* UIKit.framework in Frameworks */,
 				C460604B18A9B63700CC64D4 /* Foundation.framework in Frameworks */,
+				C459761E235EA0790079638C /* SwiftMockObject.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		C458DC72196E7F980064E0C6 /* Controllers */ = {
+		C458DC72196E7F980064E0C6 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
-				C458DC73196E7F980064E0C6 /* SetViewController.storyboard */,
-				C458DC74196E7F980064E0C6 /* SetViewController.swift */,
-				C4822DFE19F1EC0600B66A9A /* SummaryViewController.swift */,
+				C4597628235EA7580079638C /* Main */,
+				C4597627235EA7500079638C /* Summary */,
 			);
-			path = Controllers;
+			path = Presentation;
 			sourceTree = "<group>";
 		};
-		C458DC75196E7F980064E0C6 /* Views */ = {
+		C4597626235EA73F0079638C /* Logic */ = {
+			isa = PBXGroup;
+			children = (
+				C458DC6E196E7F860064E0C6 /* Card.swift */,
+				C4597617235E95A00079638C /* GameManager.swift */,
+			);
+			path = Logic;
+			sourceTree = "<group>";
+		};
+		C4597627235EA7500079638C /* Summary */ = {
+			isa = PBXGroup;
+			children = (
+				C4822E0019F1ECCA00B66A9A /* SummaryCollectionViewCell.swift */,
+				C4822DFE19F1EC0600B66A9A /* SummaryViewController.swift */,
+				C459761B235E98830079638C /* SummaryViewModel.swift */,
+			);
+			path = Summary;
+			sourceTree = "<group>";
+		};
+		C4597628235EA7580079638C /* Main */ = {
 			isa = PBXGroup;
 			children = (
 				C458DC76196E7F980064E0C6 /* CardCollectionViewCell.swift */,
 				C458DC77196E7F980064E0C6 /* CardSymbolView.swift */,
-				C4822E0019F1ECCA00B66A9A /* SummaryCollectionViewCell.swift */,
+				C458DC73196E7F980064E0C6 /* SetViewController.storyboard */,
+				C458DC74196E7F980064E0C6 /* SetViewController.swift */,
+				C4597619235E971F0079638C /* SetViewModel.swift */,
 			);
-			path = Views;
+			path = Main;
+			sourceTree = "<group>";
+		};
+		C459762B235EA7B80079638C /* Logic */ = {
+			isa = PBXGroup;
+			children = (
+				C459761F235EA08A0079638C /* MockGameManager.swift */,
+				C458DC82196F1C6C0064E0C6 /* TestCard.swift */,
+				C458DC84196F1D5C0064E0C6 /* TestGameManager.swift */,
+			);
+			path = Logic;
+			sourceTree = "<group>";
+		};
+		C459762C235EA7CE0079638C /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				C459762E235EA7DE0079638C /* Summary */,
+				C459762D235EA7D70079638C /* Main */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		C459762D235EA7D70079638C /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				C4597624235EA3BE0079638C /* TestSetViewModel.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		C459762E235EA7DE0079638C /* Summary */ = {
+			isa = PBXGroup;
+			children = (
+				C4597621235EA1480079638C /* TestSummaryViewModel.swift */,
+			);
+			path = Summary;
 			sourceTree = "<group>";
 		};
 		C460602418A9B63700CC64D4 = {
@@ -153,6 +241,8 @@
 		C460602F18A9B63700CC64D4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C459761D235EA0790079638C /* SwiftMockObject.framework */,
+				C4597611235E93F60079638C /* Swinject.framework */,
 				C460603018A9B63700CC64D4 /* Foundation.framework */,
 				C460603218A9B63700CC64D4 /* CoreGraphics.framework */,
 				C460603418A9B63700CC64D4 /* UIKit.framework */,
@@ -164,13 +254,13 @@
 		C460603618A9B63700CC64D4 /* Set */ = {
 			isa = PBXGroup;
 			children = (
-				C458DC72196E7F980064E0C6 /* Controllers */,
 				C460604218A9B63700CC64D4 /* Images.xcassets */,
-				C460605F18A9B71D00CC64D4 /* Models */,
+				C4597626235EA73F0079638C /* Logic */,
+				C458DC72196E7F980064E0C6 /* Presentation */,
 				C4D72EF8196E5045009A6B62 /* SetAppDelegate.swift */,
+				C4597615235E95830079638C /* SetContainer.swift */,
 				C460603718A9B63700CC64D4 /* Supporting Files */,
 				C475E7391B8EABB700A6CBB8 /* Util */,
-				C458DC75196E7F980064E0C6 /* Views */,
 			);
 			path = Set;
 			sourceTree = "<group>";
@@ -187,9 +277,9 @@
 		C460604F18A9B63700CC64D4 /* SetTests */ = {
 			isa = PBXGroup;
 			children = (
+				C459762B235EA7B80079638C /* Logic */,
+				C459762C235EA7CE0079638C /* Presentation */,
 				C460605018A9B63700CC64D4 /* Supporting Files */,
-				C458DC82196F1C6C0064E0C6 /* TestCard.swift */,
-				C458DC84196F1D5C0064E0C6 /* TestGame.swift */,
 			);
 			path = SetTests;
 			sourceTree = "<group>";
@@ -201,15 +291,6 @@
 				C460605218A9B63700CC64D4 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		C460605F18A9B71D00CC64D4 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				C458DC6E196E7F860064E0C6 /* Card.swift */,
-				C458DC6F196E7F860064E0C6 /* Game.swift */,
-			);
-			name = Models;
 			sourceTree = "<group>";
 		};
 		C475E7391B8EABB700A6CBB8 /* Util */ = {
@@ -231,6 +312,7 @@
 				C460602A18A9B63700CC64D4 /* Frameworks */,
 				C460602B18A9B63700CC64D4 /* Resources */,
 				C416FA111C911324009EBF1C /* Swiftlint */,
+				C4597614235E93F60079638C /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -248,6 +330,7 @@
 				C460604418A9B63700CC64D4 /* Sources */,
 				C460604518A9B63700CC64D4 /* Frameworks */,
 				C460604618A9B63700CC64D4 /* Resources */,
+				C4597623235EA2300079638C /* Carthage Copy Frameworks */,
 			);
 			buildRules = (
 			);
@@ -338,6 +421,26 @@
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
 		};
+		C4597623235EA2300079638C /* Carthage Copy Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/SwiftMockObject.framework",
+			);
+			name = "Carthage Copy Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/SwiftMockObject.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -348,10 +451,13 @@
 				C475E73B1B8EABF500A6CBB8 /* Colors.swift in Sources */,
 				C458DC7B196E7F980064E0C6 /* CardSymbolView.swift in Sources */,
 				C4D72EF9196E5045009A6B62 /* SetAppDelegate.swift in Sources */,
+				C4597618235E95A00079638C /* GameManager.swift in Sources */,
 				C458DC79196E7F980064E0C6 /* SetViewController.swift in Sources */,
-				C458DC71196E7F860064E0C6 /* Game.swift in Sources */,
 				C458DC7A196E7F980064E0C6 /* CardCollectionViewCell.swift in Sources */,
+				C459761C235E98830079638C /* SummaryViewModel.swift in Sources */,
+				C4597616235E95830079638C /* SetContainer.swift in Sources */,
 				C4822DFF19F1EC0600B66A9A /* SummaryViewController.swift in Sources */,
+				C459761A235E971F0079638C /* SetViewModel.swift in Sources */,
 				C458DC70196E7F860064E0C6 /* Card.swift in Sources */,
 				C4822E0119F1ECCA00B66A9A /* SummaryCollectionViewCell.swift in Sources */,
 			);
@@ -361,8 +467,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C4597620235EA08A0079638C /* MockGameManager.swift in Sources */,
 				C458DC83196F1C6C0064E0C6 /* TestCard.swift in Sources */,
-				C458DC85196F1D5C0064E0C6 /* TestGame.swift in Sources */,
+				C458DC85196F1D5C0064E0C6 /* TestGameManager.swift in Sources */,
+				C4597622235EA1480079638C /* TestSummaryViewModel.swift in Sources */,
+				C4597625235EA3BE0079638C /* TestSetViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -523,6 +632,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Set/Set-Prefix.pch";
 				INFOPLIST_FILE = "Set/Set-Info.plist";
@@ -546,6 +659,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = "";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Set/Set-Prefix.pch";
 				INFOPLIST_FILE = "Set/Set-Info.plist";
@@ -568,6 +685,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Set/Set-Prefix.pch";
@@ -595,6 +713,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Set/Set-Prefix.pch";

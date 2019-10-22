@@ -1,3 +1,5 @@
+excluded:
+  - Carthage
 line_length:
   warning: 200
   error: 5000

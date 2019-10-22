@@ -10,7 +10,7 @@ import UIKit
 class SummaryViewController: UICollectionViewController {
     private let reuseIdentifier = "Cell"
 
-    var game: Game!
+    private var model: SummaryViewModel!
 
     private enum Stat {
         case setsFound, cardsLeft, possibleSets
@@ -26,6 +26,8 @@ class SummaryViewController: UICollectionViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        model = SummaryViewModel(container: SetContainer.container)
 
         collectionView?.register(SummaryCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
 
@@ -56,11 +58,11 @@ class SummaryViewController: UICollectionViewController {
         let valueText: String
         switch cellInfo.type {
         case .setsFound:
-            valueText = "\(game.numberOfSetsFound)"
+            valueText = "\(model.numberOfSetsFound)"
         case .cardsLeft:
-            valueText = "\(game.deck.count)"
+            valueText = "\(model.cardsLeft)"
         case .possibleSets:
-            valueText = "\(game.numberOfSetsInDeal)"
+            valueText = "\(model.numberOfSetsInDeal)"
         }
 
         if let summaryCell = cell as? SummaryCollectionViewCell {
