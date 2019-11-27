@@ -51,6 +51,23 @@ struct Card {
         }
         return cards
     }
+
+    static func thirdCardForSetWith(_ card1: Card, _ card2: Card) -> Card {
+        let color = thirdProperty(fromList: Card.Color.allCases, formingSetWith: card1.color, card2.color)
+        let number = thirdProperty(fromList: Card.Number.allCases, formingSetWith: card1.number, card2.number)
+        let shape = thirdProperty(fromList: Card.Shape.allCases, formingSetWith: card1.shape, card2.shape)
+        let fill = thirdProperty(fromList: Card.Fill.allCases, formingSetWith: card1.fill, card2.fill)
+        return Card(color: color, number: number, shape: shape, fill: fill)
+    }
+
+    private static func thirdProperty<T: Equatable>(fromList allProperties: [T], formingSetWith property1: T, _ property2: T) -> T {
+        if property1 == property2 {
+            return property1
+        } else {
+            assert(allProperties.count == 3, "List of possible values for property does not have 3 items")
+            return allProperties.first(where: { $0 != property1 && $0 != property2 })!
+        }
+    }
 }
 
 extension Card: Equatable {

@@ -8,43 +8,79 @@
 import XCTest
 @testable import Set
 import Swinject
+import RxTest
+import RxSwift
+import RxCocoa
 
 class TestSetViewModel: XCTestCase {
+    private let scheduler = TestScheduler(initialClock: 0)
+    private let disposeBag = DisposeBag()
+
+    private var container: Container!
+
     private var game: MockGameManager!
 
     private var model: SetViewModel!
 
-    private var timesReloadCardsNotified = 0
-    private var timesReloadSummaryNotified = 0
-
     override func setUp() {
-        game = MockGameManager()
-        let container = Container { container in
+        game = MockGameManager(scheduler: scheduler)
+        container = Container { container in
             container.register(GameManagerProtocol.self) { [unowned self] _ in self.game }
         }
+    }
+
+    private func initModel() {
         model = SetViewModel(container: container)
-
-        timesReloadCardsNotified = 0
-        timesReloadSummaryNotified = 0
-        NotificationCenter.default.addObserver(self, selector: #selector(TestSetViewModel.reloadCards), name: model.reloadCards, object: model)
-        NotificationCenter.default.addObserver(self, selector: #selector(TestSetViewModel.reloadSummary), name: model.reloadSummary, object: model)
     }
 
-    @objc private func reloadCards() {
-        timesReloadCardsNotified += 1
+    func testCardSelected() {
+        var cardSelectedElements: [Int] = []
+        game.cardSelected.subscribe({ event in
+            cardSelectedElements.append(event.element!)
+        }).disposed(by: disposeBag)
+
+        initModel()
+        Observable.of(
+            IndexPath(row: 1, section: 2),
+            IndexPath(row: 3, section: 4)
+        ).bind(to: model.cardSelected).disposed(by: disposeBag)
+
+        XCTAssertEqual(cardSelectedElements, [1, 3])
     }
 
-    @objc private func reloadSummary() {
-        timesReloadSummaryNotified += 1
+    func testCardDeselected() {
+        var cardDeselectedElements: [Int] = []
+        game.cardDeselected.subscribe({ event in
+            cardDeselectedElements.append(event.element!)
+        }).disposed(by: disposeBag)
+
+        initModel()
+        Observable.of(
+            IndexPath(row: 1, section: 2),
+            IndexPath(row: 3, section: 4)
+        ).bind(to: model.cardDeselected).disposed(by: disposeBag)
+
+        XCTAssertEqual(cardDeselectedElements, [1, 3])
     }
 
     func testAddCardsEnabled() {
-        game.deck = []
-        XCTAssertFalse(model.addCardsEnabled)
-        game.deck = Card.allCards()
-        XCTAssertTrue(model.addCardsEnabled)
-    }
+        game.deck = scheduler.createHotObservable([
+            .next(0, Card.allCards()),
+            .next(10, [])
+        ]).asObservable()
 
+        initModel()
+        let addCardsEnabled = scheduler.createObserver(Bool.self)
+        model.addCardsEnabled.asDriver(onErrorJustReturn: false).drive(addCardsEnabled).disposed(by: disposeBag)
+
+        scheduler.start()
+
+        XCTAssertEqual(addCardsEnabled.events, [
+            .next(0, true),
+            .next(10, false)
+        ])
+    }
+/*
     func testNewGame() {
         game.deal = Card.allCards()
         model.selectCard(atIndex: 0)
@@ -141,5 +177,5 @@ class TestSetViewModel: XCTestCase {
         model.deselectCard(atIndex: 1)
         XCTAssertEqual(model.selectedCards.count, 1)
     }
-
+*/
 }

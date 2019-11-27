@@ -6,23 +6,15 @@
 //
 
 import UIKit
+import RxCocoa
+import RxSwift
 
 class SummaryViewController: UICollectionViewController {
     private let reuseIdentifier = "Cell"
 
     private var model: SummaryViewModel!
 
-    private enum Stat {
-        case setsFound, cardsLeft, possibleSets
-    }
-
-    private typealias CellInfo = (type: Stat, label: String)
-
-    private let cells: [CellInfo] = [
-        (.setsFound, NSLocalizedString("Found", comment: "Label for number of sets found")),
-        (.cardsLeft, NSLocalizedString("Left", comment: "Label for number of cards left")),
-        (.possibleSets, NSLocalizedString("Sets", comment: "Label for number of sets in deal"))
-    ]
+    private let disposeBag = DisposeBag()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,39 +30,11 @@ class SummaryViewController: UICollectionViewController {
             flowLayout.sectionInset = UIEdgeInsets(top: 0, left: margin, bottom: 0, right: margin)
             flowLayout.itemSize = CGSize(width: (view.bounds.size.width - margin * 4) / 3, height: 44)
         }
+
+        collectionView.dataSource = nil // Not sure what it setting this, maybe UICollectionViewController?
+        model.stats.bind(to: collectionView.rx.items(cellIdentifier: reuseIdentifier, cellType: SummaryCollectionViewCell.self)) { _, element, cell in
+            cell.label.text = element.label
+            cell.value.text = element.value
+        }.disposed(by: disposeBag)
     }
-
-    // MARK: - UICollectionViewDataSource
-
-    override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return cells.count
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
-
-        let cellInfo = cells[indexPath.row]
-
-        let valueText: String
-        switch cellInfo.type {
-        case .setsFound:
-            valueText = "\(model.numberOfSetsFound)"
-        case .cardsLeft:
-            valueText = "\(model.cardsLeft)"
-        case .possibleSets:
-            valueText = "\(model.numberOfSetsInDeal)"
-        }
-
-        if let summaryCell = cell as? SummaryCollectionViewCell {
-            summaryCell.label.text = cellInfo.label
-            summaryCell.value.text = valueText
-        }
-
-        return cell
-    }
-
 }

@@ -65,7 +65,6 @@
                                     </collectionViewCell>
                                 </cells>
                                 <connections>
-                                    <outlet property="dataSource" destination="FZS-7R-84J" id="zCg-Ad-os9"/>
                                     <outlet property="delegate" destination="FZS-7R-84J" id="tim-gl-2Cw"/>
                                 </connections>
                             </collectionView>
@@ -115,10 +114,6 @@
                                 </view>
                             </collectionViewCell>
                         </cells>
-                        <connections>
-                            <outlet property="dataSource" destination="nRs-Di-bH0" id="bGD-tA-hRX"/>
-                            <outlet property="delegate" destination="nRs-Di-bH0" id="B68-hG-5gh"/>
-                        </connections>
                     </collectionView>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6wA-mM-9mc" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -7,8 +7,10 @@
 
 import Foundation
 import UIKit
+import RxCocoa
+import RxSwift
 
-class SetViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+class SetViewController: UIViewController, UICollectionViewDelegate {
     private let reuseIdentifier = "Cell"
 
     private var model: SetViewModel!
@@ -19,17 +21,17 @@ class SetViewController: UIViewController, UICollectionViewDataSource, UICollect
 
     @IBOutlet weak var collectionView: UICollectionView!
 
+    private let disposeBag = DisposeBag()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         model = SetViewModel(container: SetContainer.container)
 
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh,
-            target: self, action: #selector(SetViewController.newGame))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: nil, action: nil)
         navigationItem.leftBarButtonItem?.tintColor = .white
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
-            target: self, action: #selector(SetViewController.addCards))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: nil)
         navigationItem.rightBarButtonItem?.tintColor = .white
 
         edgesForExtendedLayout = UIRectEdge()
@@ -46,10 +48,24 @@ class SetViewController: UIViewController, UICollectionViewDataSource, UICollect
             flowLayout.itemSize = CGSize(width: (view.bounds.size.width - margin * 4) / 3, height: 70)
         }
 
-        NotificationCenter.default.addObserver(self, selector: #selector(SetViewController.reloadCards), name: model.reloadCards, object: model)
-        NotificationCenter.default.addObserver(self, selector: #selector(SetViewController.reloadSummary), name: model.reloadSummary, object: model)
+        // Bindings
 
-        model.newGame()
+        navigationItem.leftBarButtonItem?.rx.tap.bind(to: model.newGame).disposed(by: disposeBag)
+        navigationItem.rightBarButtonItem?.rx.tap.bind(to: model.addCards).disposed(by: disposeBag)
+
+        collectionView.rx.itemSelected.bind(to: model.cardSelected).disposed(by: disposeBag)
+        collectionView.rx.itemDeselected.bind(to: model.cardDeselected).disposed(by: disposeBag)
+
+        model.addCardsEnabled.bind(to: navigationItem.rightBarButtonItem!.rx.isEnabled).disposed(by: disposeBag)
+
+        model.deal.bind(to: collectionView.rx.items(cellIdentifier: reuseIdentifier, cellType: CardCollectionViewCell.self)) { _, element, cell in
+            cell.selectedBackgroundView = UIView(frame: cell.frame)
+            cell.selectedBackgroundView?.backgroundColor = UIColor.selectedCardBackgroundColor()
+
+            let symbolView = CardSymbolView(frame: cell.bounds, card: element)
+            symbolView.backgroundColor = .clear
+            cell.cardSymbolView = symbolView
+        }.disposed(by: disposeBag)
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -61,64 +77,5 @@ class SetViewController: UIViewController, UICollectionViewDataSource, UICollect
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
-    }
-
-    @objc private func addCards() {
-        model.addCards()
-
-        collectionView.insertItems(at: [
-            IndexPath(row: model.deal.count - 3, section: 0),
-            IndexPath(row: model.deal.count - 2, section: 0),
-            IndexPath(row: model.deal.count - 1, section: 0)
-            ])
-        collectionView.scrollToItem(
-            at: IndexPath(row: model.deal.count - 1, section: 0),
-            at: .bottom,
-            animated: true
-        )
-    }
-
-    @objc private func newGame() {
-        model.newGame()
-    }
-
-    @objc private func reloadCards() {
-        collectionView.reloadSections(IndexSet(integer: 0))
-    }
-
-    @objc private func reloadSummary() {
-        summaryViewController.collectionView?.reloadData()
-        navigationItem.rightBarButtonItem?.isEnabled = model.addCardsEnabled
-    }
-
-    // MARK: - UICollectionViewDataSource
-
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return model.deal.count
-    }
-
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
-
-        cell.selectedBackgroundView = UIView(frame: cell.frame)
-        cell.selectedBackgroundView?.backgroundColor = UIColor.selectedCardBackgroundColor()
-
-        if let cardCell = cell as? CardCollectionViewCell {
-            let symbolView = CardSymbolView(frame: cell.bounds, card: model.deal[indexPath.row])
-            symbolView.backgroundColor = .clear
-            cardCell.cardSymbolView = symbolView
-        }
-
-        return cell
-    }
-
-    // MARK: - UICollectionViewDelegate
-
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        model.selectCard(atIndex: indexPath.row)
-    }
-
-    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        model.deselectCard(atIndex: indexPath.row)
     }
 }

@@ -7,93 +7,326 @@
 
 import XCTest
 @testable import Set
+import Swinject
+import RxTest
+import RxSwift
+import RxCocoa
 
-class TestGameManager: XCTestCase {
+class TestGameManager: XCTestCase { // swiftlint:disable:this type_body_length
+    private let scheduler = TestScheduler(initialClock: 0)
+    private let disposeBag = DisposeBag()
 
-    func testIsSet() {
-        let game = GameManager()
+    private var container: Container!
 
-        XCTAssertTrue(game.isSet(validSetAllDifferent()), "Should be a set")
-        XCTAssertTrue(game.isSet(validSetShapeDifferent()), "Should be a set")
+    private var deckManager: MockDeckManager!
 
-        XCTAssertFalse(game.isSet(invalidSet()), "Should not be a set")
-        XCTAssertFalse(game.isSet(threeSets()), "Should not be a set")
+    private var manager: GameManager!
+
+    override func setUp() {
+        deckManager = MockDeckManager(scheduler: scheduler)
+    }
+
+    private func initManager() {
+        manager = GameManager(deckManager: deckManager)
+    }
+
+    func testDuplicateAndInvalidCardsSelected() {
+        var setSelectedElements: [[Card]] = []
+        deckManager.clearCards.subscribe({ event in
+            setSelectedElements.append(event.element!)
+        }).disposed(by: disposeBag)
+
+        deckManager.deal = scheduler.createHotObservable([
+            .next(0, validSetAllDifferent())
+        ]).asObservable()
+
+        initManager()
+
+        let selected = scheduler.createHotObservable([
+            .next(10, 0),
+            .next(20, 1),
+            .next(30, 1),
+            .next(40, 10),
+            .next(50, 2)
+        ])
+        selected.bind(to: manager.cardSelected).disposed(by: disposeBag)
+
+        scheduler.start()
+
+        wait(milliseconds: 100) // wait for async scheduler
+        XCTAssertEqual(setSelectedElements, [validSetAllDifferent()])
+    }
+
+    func testDuplicateAndInvalidCardsDeselected() {
+        var setSelectedElements: [[Card]] = []
+        deckManager.clearCards.subscribe({ event in
+            setSelectedElements.append(event.element!)
+        }).disposed(by: disposeBag)
+
+        deckManager.deal = scheduler.createHotObservable([
+            .next(0, validSetAllDifferent())
+        ]).asObservable()
+
+        initManager()
+
+        let selected = scheduler.createHotObservable([
+            .next(10, 0)
+        ])
+        let deselected = scheduler.createHotObservable([
+            .next(20, 0),
+            .next(30, 0),
+            .next(40, 10)
+        ])
+        selected.bind(to: manager.cardSelected).disposed(by: disposeBag)
+        deselected.bind(to: manager.cardDeselected).disposed(by: disposeBag)
+
+        scheduler.start()
+
+        wait(milliseconds: 100) // wait for async scheduler
+        XCTAssertEqual(setSelectedElements, [])
+    }
+
+    func testSetSelected() {
+        var setSelectedElements: [[Card]] = []
+        deckManager.clearCards.subscribe({ event in
+            setSelectedElements.append(event.element!)
+        }).disposed(by: disposeBag)
+
+        deckManager.deal = scheduler.createHotObservable([
+            .next(0, validSetAllDifferent())
+        ]).asObservable()
+
+        initManager()
+
+        let selected = scheduler.createHotObservable([
+            .next(10, 0),
+            .next(20, 1),
+            .next(30, 2)
+        ])
+        selected.bind(to: manager.cardSelected).disposed(by: disposeBag)
+
+        scheduler.start()
+
+        wait(milliseconds: 100) // wait for async scheduler
+        XCTAssertEqual(setSelectedElements, [validSetAllDifferent()])
+    }
+
+    func testNotASetSelected() {
+        var setSelectedElements: [[Card]] = []
+        deckManager.clearCards.subscribe({ event in
+            setSelectedElements.append(event.element!)
+        }).disposed(by: disposeBag)
+
+        deckManager.deal = scheduler.createHotObservable([
+            .next(0, invalidSet())
+        ]).asObservable()
+
+        initManager()
+
+        let selected = scheduler.createHotObservable([
+            .next(10, 0),
+            .next(20, 1),
+            .next(30, 2)
+        ])
+        selected.bind(to: manager.cardSelected).disposed(by: disposeBag)
+
+        scheduler.start()
+
+        wait(milliseconds: 100) // wait for async scheduler
+        XCTAssertEqual(setSelectedElements, [])
+    }
+
+    func testCardDeselected1() {
+        var setSelectedElements: [[Card]] = []
+        deckManager.clearCards.subscribe({ event in
+            setSelectedElements.append(event.element!)
+        }).disposed(by: disposeBag)
+
+        deckManager.deal = scheduler.createHotObservable([
+            .next(0, validSetAllDifferent() + validSetAllDifferent())
+        ]).asObservable()
+
+        initManager()
+
+        /*
+         Deal out 6 cards (valid set * 2)
+         Select 0, 1
+         Deselect 0
+         Select 2, 3
+
+         Expectation: 1, 2, 3 is a valid set
+         */
+        let selected = scheduler.createHotObservable([
+            .next(10, 0),
+            .next(20, 1),
+            .next(30, 2),
+            .next(40, 3)
+        ])
+        let deselected = scheduler.createHotObservable([
+            .next(25, 0)
+        ])
+        selected.bind(to: manager.cardSelected).disposed(by: disposeBag)
+        deselected.bind(to: manager.cardDeselected).disposed(by: disposeBag)
+
+        scheduler.start()
+
+        wait(milliseconds: 100) // wait for async scheduler
+        let expectedSet = [validSetAllDifferent()[1], validSetAllDifferent()[2], validSetAllDifferent()[0]]
+        XCTAssertEqual(setSelectedElements, [expectedSet])
+    }
+
+    func testCardDeselected2() {
+        var setSelectedElements: [[Card]] = []
+        deckManager.clearCards.subscribe({ event in
+            setSelectedElements.append(event.element!)
+        }).disposed(by: disposeBag)
+
+        deckManager.deal = scheduler.createHotObservable([
+            .next(0, validSetAllDifferent() + invalidSet())
+        ]).asObservable()
+
+        initManager()
+
+        /*
+         Deal out 6 cards (valid set + invalid set)
+         Select 0, 1
+         Deselect 0
+         Select 2, 3, 0
+         Deselect 3
+
+         Expectation: 0, 1, 2 is a valid set
+         */
+        let selected = scheduler.createHotObservable([
+            .next(10, 0),
+            .next(20, 1),
+            .next(30, 2),
+            .next(40, 3),
+            .next(40, 0)
+        ])
+        let deselected = scheduler.createHotObservable([
+            .next(25, 0),
+            .next(45, 3)
+        ])
+        selected.bind(to: manager.cardSelected).disposed(by: disposeBag)
+        deselected.bind(to: manager.cardDeselected).disposed(by: disposeBag)
+
+        scheduler.start()
+
+        wait(milliseconds: 100) // wait for async scheduler
+        let expectedSet = [validSetAllDifferent()[1], validSetAllDifferent()[2], validSetAllDifferent()[0]]
+        XCTAssertEqual(setSelectedElements, [expectedSet])
+    }
+
+    func testSelectedCardsClearedAfterSetSelected() {
+        var setSelectedElements: [[Card]] = []
+        deckManager.clearCards.subscribe({ event in
+            setSelectedElements.append(event.element!)
+        }).disposed(by: disposeBag)
+
+        deckManager.deal = scheduler.createHotObservable([
+            .next(0, validSetAllDifferent()),
+            .next(31, validSetShapeDifferent())
+        ]).asObservable()
+
+        initManager()
+
+        /*
+         Deal out 3 cards (valid set)
+         Select set 0, 1, 2
+         Wait for async setSelected event
+         Deal out 3 different cards (valid set)
+         Deselect 2
+         Select 2
+
+         Expectation: Deselecting and reselecting 2 should not count as a
+         valid set since the 0, 1, 2 selection should have been cleared out.
+         */
+        let selected = scheduler.createHotObservable([
+            .next(10, 0),
+            .next(20, 1),
+            .next(30, 2),
+            .next(40, 2)
+        ])
+        let deselected = scheduler.createHotObservable([
+            .next(35, 2)
+        ])
+        selected.bind(to: manager.cardSelected).disposed(by: disposeBag)
+        deselected.bind(to: manager.cardDeselected).disposed(by: disposeBag)
+
+        scheduler.advanceTo(30)
+        wait(milliseconds: 100) // wait for async scheduler
+        XCTAssertEqual(setSelectedElements.count, 1)
+
+        scheduler.advanceTo(50)
+        wait(milliseconds: 100) // wait for async scheduler
+        XCTAssertEqual(setSelectedElements.count, 1)
+    }
+
+    func testNumberOfSetsFound() {
+        deckManager.deal = scheduler.createHotObservable([
+            .next(0, validSetAllDifferent())
+        ]).asObservable()
+
+        initManager()
+        let numberOfSetsFound = scheduler.createObserver(Int.self)
+        manager.numberOfSetsFound.asDriver(onErrorJustReturn: 0).drive(numberOfSetsFound).disposed(by: disposeBag)
+
+        /*
+         Deal out 3 cards (valid set)
+         Select set 0, 1, 2
+         Wait for async setSelected event
+         Add cards
+         Start a new game
+         */
+        let selected = scheduler.createHotObservable([
+            .next(10, 0),
+            .next(20, 1),
+            .next(30, 2)
+        ])
+        selected.bind(to: manager.cardSelected).disposed(by: disposeBag)
+        scheduler.createHotObservable([
+            .next(40, ())
+        ]).bind(to: manager.addCards).disposed(by: disposeBag)
+        scheduler.createHotObservable([
+            .next(50, ())
+        ]).bind(to: manager.newGame).disposed(by: disposeBag)
+
+        scheduler.advanceTo(30)
+        wait(milliseconds: 100) // wait for async scheduler
+        XCTAssertEqual(numberOfSetsFound.events, [
+            .next(30, 1)
+        ])
+
+        scheduler.advanceTo(50)
+        XCTAssertEqual(numberOfSetsFound.events, [
+            .next(30, 1),
+            .next(50, 0)
+        ])
     }
 
     func testNumberOfSets() {
-        let game = GameManager()
+        deckManager.deal = scheduler.createHotObservable([
+            .next(0, invalidSet()),
+            .next(10, validSetAllDifferent()),
+            .next(20, threeSets())
+        ]).asObservable()
 
-        XCTAssertEqual(game.numberOfSetsInDeal(invalidSet()), 0, "Expected no sets")
-        XCTAssertEqual(game.numberOfSetsInDeal(validSetAllDifferent()), 1, "Expected one set")
-        XCTAssertEqual(game.numberOfSetsInDeal(threeSets()), 3, "Expected three sets")
+        initManager()
+        let numberOfSetsInDeal = scheduler.createObserver(Int.self)
+        manager.numberOfSetsInDeal.asDriver(onErrorJustReturn: 0).drive(numberOfSetsInDeal).disposed(by: disposeBag)
+
+        scheduler.start()
+
+        XCTAssertEqual(numberOfSetsInDeal.events, [
+            .next(0, 0),
+            .next(10, 1),
+            .next(20, 3)
+        ])
     }
 
-    func testDealMoreCards() {
-        let game = GameManager()
-        let initialNumberOfSets = game.numberOfSetsInDeal
-        XCTAssertEqual(game.deck.count, 69, "Deck size")
-        XCTAssertEqual(game.deal.count, 12, "Deal size")
+    // MARK: - Helpers
 
-        game.test_setDeck(validSetAllDifferent()) // Deck now has 3 cards
-        game.dealMoreCards()
-
-        XCTAssertEqual(game.deck.count, 0, "Deck size")
-        XCTAssertEqual(game.deal.count, 15, "Deal size")
-        XCTAssertGreaterThan(game.numberOfSetsInDeal, initialNumberOfSets, "Number of sets did not update")
-    }
-
-    func testHandlePossibleSet() {
-        let game = GameManager()
-
-        // Ensure deal has a known set
-        let dealSet = validSetShapeDifferent()
-        var deal = game.deal
-        deal.replaceSubrange(0...2, with: dealSet)
-        game.test_setDeal(deal)
-
-        XCTAssertTrue(game.handlePossibleSet(dealSet))
-        XCTAssertEqual(game.deal.count, 12, "New cards should be dealt")
-        XCTAssertEqual(game.numberOfSetsFound, 1, "Number of sets did not update")
-    }
-
-    func testHandlePossibleSetNoDeal() {
-        let game = GameManager()
-
-        // Ensure deck will deal out a known set
-        // Assuming cards will be dealt from the end of the deck
-        let deckSet = validSetAllDifferent()
-        var deck = game.deck
-        deck.append(contentsOf: deckSet)
-        game.test_setDeck(deck)
-
-        game.dealMoreCards()
-        XCTAssertEqual(game.deal.count, 15, "New cards should be dealt")
-
-        XCTAssertTrue(game.handlePossibleSet(deckSet))
-        XCTAssertEqual(game.deal.count, 12, "New cards should be dealt")
-        XCTAssertEqual(game.numberOfSetsFound, 1, "Number of sets did not update")
-    }
-
-    func testHandlePossibleSetEmptyDeck() {
-        let game = GameManager()
-
-        // Ensure deal has a known set
-        let dealSet = validSetShapeDifferent()
-        var deal = game.deal
-        deal.replaceSubrange(0...2, with: dealSet)
-        game.test_setDeal(deal)
-
-        // Empty deck
-        game.test_setDeck([])
-
-        XCTAssertTrue(game.handlePossibleSet(dealSet))
-        XCTAssertEqual(game.deal.count, 9, "No more cards should be dealt")
-        XCTAssertEqual(game.numberOfSetsFound, 1, "Number of sets did not update")
-    }
-
-    // Helpers
-
-    func validSetAllDifferent() -> [Card] {
+    private func validSetAllDifferent() -> [Card] {
         return [
             Card(color: .red, number: .one, shape: .squiggle, fill: .lined),
             Card(color: .green, number: .two, shape: .pill, fill: .empty),
@@ -101,7 +334,7 @@ class TestGameManager: XCTestCase {
         ]
     }
 
-    func validSetShapeDifferent() -> [Card] {
+    private func validSetShapeDifferent() -> [Card] {
         let color = Card.Color.purple
         let number = Card.Number.one
         let fill = Card.Fill.lined
@@ -113,7 +346,7 @@ class TestGameManager: XCTestCase {
         ]
     }
 
-    func invalidSet() -> [Card] {
+    private func invalidSet() -> [Card] {
         return [
             Card(color: .green, number: .one, shape: .squiggle, fill: .solid),
             Card(color: .green, number: .one, shape: .pill, fill: .solid),
@@ -121,7 +354,7 @@ class TestGameManager: XCTestCase {
         ]
     }
 
-    func threeSets() -> [Card] {
+    private func threeSets() -> [Card] {
         return [
             /* Set 1 */
             Card(color: .red, number: .one, shape: .diamond, fill: .empty),
@@ -138,5 +371,4 @@ class TestGameManager: XCTestCase {
             Card(color: .red, number: .two, shape: .squiggle, fill: .lined)
         ]
     }
-
 }

@@ -52,4 +52,30 @@ class TestCard: XCTestCase {
         XCTAssertEqual(81, allCards.count)
     }
 
+    func testThirdCardForSetAllDifferent() {
+        assertThirdCardForSet(set: [
+            Card(color: .red, number: .one, shape: .squiggle, fill: .lined),
+            Card(color: .green, number: .two, shape: .pill, fill: .empty),
+            Card(color: .purple, number: .three, shape: .diamond, fill: .solid)
+        ])
+    }
+
+    func testThirdCardForSetShapeDifferent() {
+        let color = Card.Color.purple
+        let number = Card.Number.one
+        let fill = Card.Fill.lined
+
+        assertThirdCardForSet(set: [
+            Card(color: color, number: number, shape: .squiggle, fill: fill),
+            Card(color: color, number: number, shape: .pill, fill: fill),
+            Card(color: color, number: number, shape: .diamond, fill: fill)
+        ])
+    }
+
+    private func assertThirdCardForSet(set: [Card], file: String = #file, line: UInt = #line) {
+        XCTAssertEqual(Card.thirdCardForSetWith(set[0], set[1]), set[2])
+        XCTAssertEqual(Card.thirdCardForSetWith(set[0], set[2]), set[1])
+        XCTAssertEqual(Card.thirdCardForSetWith(set[1], set[2]), set[0])
+    }
+
 }

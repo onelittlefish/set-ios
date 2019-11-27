@@ -7,70 +7,37 @@
 
 import Foundation
 import Swinject
+import RxSwift
+import RxRelay
 
 class SetViewModel {
     private let game: GameManagerProtocol!
 
-    private(set) var selectedCards: [Card] = []
+    let newGame = PublishRelay<Void>()
+    let addCards = PublishRelay<Void>()
+    let cardSelected = PublishRelay<IndexPath>()
+    let cardDeselected = PublishRelay<IndexPath>()
 
-    let reloadCards = Notification.Name("reloadCards")
-    let reloadSummary = Notification.Name("reloadSummary")
+    let deck: Observable<[Card]>
+    let deal: Observable<[Card]>
 
-    var deck: [Card] {
-        return game.deck
-    }
+    let addCardsEnabled: Observable<Bool>
 
-    var deal: [Card] {
-        return game.deal
-    }
-
-    var addCardsEnabled: Bool {
-        return deck.count > 0
-    }
+    private let disposeBag = DisposeBag()
 
     init(container: Container) {
         game = container.resolve(GameManagerProtocol.self)!
+
+        newGame.bind(to: game.newGame).disposed(by: disposeBag)
+        addCards.bind(to: game.addCards).disposed(by: disposeBag)
+        cardSelected.map({ $0.row }).bind(to: game.cardSelected).disposed(by: disposeBag)
+        cardDeselected.map({ $0.row }).bind(to: game.cardDeselected).disposed(by: disposeBag)
+
+        deck = game.deck
+        deal = game.deal
+
+        addCardsEnabled = deck.map({ deck in
+            return deck.count > 0
+        })
     }
-
-    func newGame() {
-        game.newGame()
-        selectedCards = []
-
-        notify(reloadCards)
-        notify(reloadSummary)
-    }
-
-    func addCards() {
-        game.dealMoreCards()
-
-        notify(reloadSummary)
-    }
-
-    func selectCard(atIndex index: Int) {
-        let selectedCard = deal[index]
-
-        if !selectedCards.contains(selectedCard) {
-            selectedCards.append(selectedCard)
-        }
-
-        if selectedCards.count == 3 {
-            if game.handlePossibleSet(selectedCards) {
-                selectedCards = []
-
-                notify(reloadCards)
-                notify(reloadSummary)
-            }
-        }
-    }
-
-    func deselectCard(atIndex index: Int) {
-        if let index = selectedCards.firstIndex(of: deal[index]) {
-            selectedCards.remove(at: index)
-        }
-    }
-
-    private func notify(_ notification: Notification.Name) {
-        NotificationCenter.default.post(name: notification, object: self)
-    }
-
 }
