@@ -6,15 +6,14 @@
 //
 
 import UIKit
-import RxCocoa
-import RxSwift
+import Yoyo
 
 class SummaryViewController: UICollectionViewController {
     private let reuseIdentifier = "Cell"
 
     private var model: SummaryViewModel!
 
-    private let disposeBag = DisposeBag()
+    private let updater = YoyoUpdater()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,10 +30,27 @@ class SummaryViewController: UICollectionViewController {
             flowLayout.itemSize = CGSize(width: (view.bounds.size.width - margin * 4) / 3, height: 44)
         }
 
-        collectionView.dataSource = nil // Not sure what it setting this, maybe UICollectionViewController?
-        model.stats.bind(to: collectionView.rx.items(cellIdentifier: reuseIdentifier, cellType: SummaryCollectionViewCell.self)) { _, element, cell in
-            cell.label.text = element.label
-            cell.value.text = element.value
-        }.disposed(by: disposeBag)
+        updater.onTransition(model.stats) { [unowned self] _, _ in
+            self.collectionView.reloadData()
+        }
+    }
+
+    // MARK: - UICollectionViewDataSource
+
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return model.stats.value.count
+    }
+
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
+
+        let cellInfo = model.stats.value[indexPath.row]
+
+        if let summaryCell = cell as? SummaryCollectionViewCell {
+            summaryCell.label.text = cellInfo.label
+            summaryCell.value.text = cellInfo.value
+        }
+
+        return cell
     }
 }

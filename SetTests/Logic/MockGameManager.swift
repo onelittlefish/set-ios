@@ -7,41 +7,36 @@
 
 import Foundation
 @testable import Set
-import RxSwift
-import RxRelay
-import RxTest
+import SwiftMockObject
+import Yoyo
 
-class MockGameManager: GameManagerProtocol {
-    let newGame = PublishRelay<Void>()
-    let addCards = PublishRelay<Void>()
-    let cardSelected = PublishRelay<Int>()
-    let cardDeselected = PublishRelay<Int>()
+enum MockGameManagerMethods {
+    case newGame
+    case addCards
+    case selectCard
+    case deselectCard
+}
 
-    var deck: Observable<[Card]>
-    var deal: Observable<[Card]>
+class MockGameManager: MockObject<MockGameManagerMethods>, GameManagerProtocol {
+    let deck: Property<[Card]> = StoredProperty([])
+    let deal: Property<[Card]> = StoredProperty([])
 
-    var numberOfSetsFound: Observable<Int>
-    var numberOfSetsInDeal: Observable<Int>
+    let numberOfSetsFound: Property<Int> = StoredProperty(0)
+    let numberOfSetsInDeal: Property<Int> = StoredProperty(0)
 
-    var scheduler: TestScheduler
+    func newGame() {
+        _onMethod(.newGame)
+    }
 
-    init(scheduler: TestScheduler) {
-        self.scheduler = scheduler
+    func addCards() {
+        _onMethod(.addCards)
+    }
 
-        deck = scheduler.createHotObservable([
-            .next(0, [])
-        ]).asObservable()
+    func selectCard(atIndex index: Int) {
+        _onMethod(.selectCard, args: index)
+    }
 
-        deal = scheduler.createHotObservable([
-            .next(0, [])
-        ]).asObservable()
-
-        numberOfSetsFound = scheduler.createHotObservable([
-            .next(0, 0)
-        ]).asObservable()
-
-        numberOfSetsInDeal = scheduler.createHotObservable([
-            .next(0, 3)
-        ]).asObservable()
+    func deselectCard(atIndex index: Int) {
+        _onMethod(.deselectCard, args: index)
     }
 }

@@ -7,30 +7,31 @@
 
 import Foundation
 import Swinject
-import RxSwift
+import Yoyo
+
+struct SummaryStat: Equatable {
+    let label: String
+    let value: String
+}
 
 class SummaryViewModel {
-    typealias SummaryStat = (label: String, value: String)
-
     private let game: GameManagerProtocol!
 
-    let stats: Observable<[SummaryStat]>
-
-    private let disposeBag = DisposeBag()
+    let stats: Property<[SummaryStat]>
 
     init(container: Container) {
         game = container.resolve(GameManagerProtocol.self)!
 
-        let cardsLeft = game.deck.map({ deck in
+        let cardsLeft = DerivedProperty(game.deck) { deck in
             return deck.count
-        })
+        }
 
-        stats = Observable.combineLatest(game.numberOfSetsFound, cardsLeft, game.numberOfSetsInDeal).map({ numberOfSetsFound, cardsLeft, numberOfSetsInDeal in
+        stats = DerivedProperty(game.numberOfSetsFound, cardsLeft, game.numberOfSetsInDeal) { numberOfSetsFound, cardsLeft, numberOfSetsInDeal in
             return [
-                (NSLocalizedString("Found", comment: "Label for number of sets found"), "\(numberOfSetsFound)"),
-                (NSLocalizedString("Left", comment: "Label for number of cards left"), "\(cardsLeft)"),
-                (NSLocalizedString("Sets", comment: "Label for number of sets in deal"), "\(numberOfSetsInDeal)")
+                SummaryStat(label: NSLocalizedString("Found", comment: "Label for number of sets found"), value: "\(numberOfSetsFound)"),
+                SummaryStat(label: NSLocalizedString("Left", comment: "Label for number of cards left"), value: "\(cardsLeft)"),
+                SummaryStat(label: NSLocalizedString("Sets", comment: "Label for number of sets in deal"), value: "\(numberOfSetsInDeal)")
             ]
-        })
+        }
     }
 }

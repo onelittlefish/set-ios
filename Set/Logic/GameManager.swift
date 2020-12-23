@@ -6,109 +6,46 @@
 //
 
 import Foundation
-import RxRelay
-import RxSwift
+import Yoyo
 
 protocol GameManagerProtocol {
-    var newGame: PublishRelay<Void> { get }
-    var addCards: PublishRelay<Void> { get }
-    var cardSelected: PublishRelay<Int> { get }
-    var cardDeselected: PublishRelay<Int> { get }
+    var deck: Property<[Card]> { get }
+    var deal: Property<[Card]> { get }
 
-    var deck: Observable<[Card]> { get }
-    var deal: Observable<[Card]> { get }
+    var numberOfSetsFound: Property<Int> { get }
+    var numberOfSetsInDeal: Property<Int> { get }
 
-    var numberOfSetsFound: Observable<Int> { get }
-    var numberOfSetsInDeal: Observable<Int> { get }
-}
-
-enum SelectionAction {
-    case selectCard(Int), deselectCard(Int), clearSelection
+    func newGame()
+    func addCards()
+    func selectCard(atIndex index: Int)
+    func deselectCard(atIndex index: Int)
 }
 
 class GameManager: GameManagerProtocol {
     private let deckManager: DeckManagerProtocol
 
-    let newGame = PublishRelay<Void>()
-    let addCards = PublishRelay<Void>()
-    let cardSelected = PublishRelay<Int>()
-    let cardDeselected = PublishRelay<Int>()
+    let deck: Property<[Card]>
+    let deal: Property<[Card]>
 
-    private let setSelected = PublishRelay<[Card]>()
+    let numberOfSetsFound: Property<Int>
+    private let _numberOfSetsFound = StoredProperty(0)
 
-    let deck: Observable<[Card]>
-    let deal: Observable<[Card]>
+    let numberOfSetsInDeal: Property<Int>
 
-    let numberOfSetsFound: Observable<Int>
-    let numberOfSetsInDeal: Observable<Int>
+    private let selectedCards = StoredProperty<[Card]>([])
+    private let setSelected: Property<Bool>
 
-    private let disposeBag = DisposeBag()
+    private let updater = YoyoUpdater()
 
     init(deckManager: DeckManagerProtocol) {
         self.deckManager = deckManager
 
-        // Deck state
-        let newGameAction = newGame.share()
-        newGameAction.bind(to: deckManager.newGame).disposed(by: disposeBag)
-        addCards.bind(to: deckManager.addCards).disposed(by: disposeBag)
-        setSelected.bind(to: deckManager.clearCards).disposed(by: disposeBag)
+        numberOfSetsFound = _numberOfSetsFound
+
         deck = deckManager.deck
         deal = deckManager.deal
 
-        // Selected card state
-        let clearSelectionAction = Observable.merge(
-            newGameAction.map({ _ in SelectionAction.clearSelection }),
-            setSelected.map({ _ in SelectionAction.clearSelection })
-        )
-        let actionsAffectingSelection = Observable.merge(
-            clearSelectionAction,
-            cardSelected.map({ SelectionAction.selectCard($0) }),
-            cardDeselected.map({ SelectionAction.deselectCard($0) })
-        )
-        let selectedIndices: Observable<[Int]> = actionsAffectingSelection.scan([], accumulator: { indices, action in
-            switch action {
-            case .clearSelection:
-                return []
-            case .selectCard(let index):
-                if !indices.contains(index) {
-                    return indices + [index]
-                } else {
-                    return indices
-                }
-            case .deselectCard(let index):
-                return indices.filter({ $0 != index })
-            }
-        }).share()
-        let selectedCards: Observable<[Card]> = Observable.combineLatest(deal, selectedIndices).map({ deal, selectedIndices in
-            return selectedIndices.compactMap({ index in
-                if index < deal.count {
-                    return deal[index]
-                } else {
-                    return nil
-                }
-            })
-        }).distinctUntilChanged()
-        // React when the selection comprises a set
-        selectedCards.filter({ selectedCards in
-            return selectedCards.count == 3 && Card.thirdCardForSetWith(selectedCards[0], selectedCards[1]) == selectedCards[2]
-        }).distinctUntilChanged().observeOn(MainScheduler.asyncInstance).bind(to: setSelected).disposed(by: disposeBag)
-
-        // Derived state
-        numberOfSetsFound = Observable.merge(
-            newGameAction.map({ _ in DeckAction.newGame }),
-            setSelected.map({ DeckAction.clearCards($0) })
-        ).scan(0, accumulator: { setsFound, action in
-            switch action {
-            case .newGame:
-                return 0
-            case .addCards:
-                return setsFound
-            case .clearCards:
-                return setsFound + 1
-            }
-        })
-
-        numberOfSetsInDeal = deal.map({ deal -> Int in
+        numberOfSetsInDeal = DerivedProperty(deckManager.deal) { deal in
             var numSets = 0
             for card1 in deal {
                 for card2 in deal where card1 != card2 {
@@ -119,6 +56,47 @@ class GameManager: GameManagerProtocol {
                 }
             }
             return numSets / 6
-        })
+        }
+
+        setSelected = DerivedProperty(selectedCards) { selectedCards in
+            return selectedCards.count == 3 && Card.thirdCardForSetWith(selectedCards[0], selectedCards[1]) == selectedCards[2]
+        }
+
+        updater.onTransition(setSelected) { [unowned self] _, setSelected in
+            if setSelected {
+                self.clearSelectedSet()
+            }
+        }
     }
+
+    func newGame() {
+        deckManager.newGame()
+        _numberOfSetsFound.value = 0
+        selectedCards.value = []
+    }
+
+    func addCards() {
+        deckManager.addCards()
+    }
+
+    func selectCard(atIndex index: Int) {
+        guard deal.value.count > index else { print("Attempted to select card at invalid index \(index)"); return }
+        let card = deal.value[index]
+        if !selectedCards.value.contains(card) {
+            selectedCards.value.append(card)
+        }
+    }
+
+    func deselectCard(atIndex index: Int) {
+        guard deal.value.count > index else { print("Attempted to deselect card at invalid index \(index)"); return }
+        let card = deal.value[index]
+        selectedCards.value.removeAll(where: { $0 == card })
+    }
+
+    private func clearSelectedSet() {
+        _numberOfSetsFound.value += 1
+        deckManager.clearCards(selectedCards.value)
+        selectedCards.value = []
+    }
+
 }

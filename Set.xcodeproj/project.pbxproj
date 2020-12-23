@@ -37,14 +37,9 @@
 		C473CCB8238E1641007DC249 /* MockDeckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C473CCB7238E1641007DC249 /* MockDeckManager.swift */; };
 		C473CCBA238E1F57007DC249 /* XCTestCaseHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C473CCB9238E1F57007DC249 /* XCTestCaseHelpers.swift */; };
 		C473CCBC238E34C7007DC249 /* TestDeckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C473CCBB238E34C7007DC249 /* TestDeckManager.swift */; };
-		C47434D8235FE4EE00FAF340 /* RxRelay.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C47434D7235FE4EE00FAF340 /* RxRelay.framework */; };
-		C47434D9235FE4EE00FAF340 /* RxRelay.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C47434D7235FE4EE00FAF340 /* RxRelay.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		C47434DB235FE4F200FAF340 /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C47434DA235FE4F200FAF340 /* RxSwift.framework */; };
-		C47434DC235FE4F200FAF340 /* RxSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C47434DA235FE4F200FAF340 /* RxSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		C47434DE235FE53900FAF340 /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C47434DD235FE53900FAF340 /* RxCocoa.framework */; };
-		C47434DF235FE53900FAF340 /* RxCocoa.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C47434DD235FE53900FAF340 /* RxCocoa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C475E73B1B8EABF500A6CBB8 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C475E73A1B8EABF500A6CBB8 /* Colors.swift */; };
-		C47D2A6A238DF06B00551AFA /* RxTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C47D2A69238DF06B00551AFA /* RxTest.framework */; };
+		C47880512592ECF50058C771 /* Yoyo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C47880502592ECF50058C771 /* Yoyo.framework */; };
+		C47880522592ECF50058C771 /* Yoyo.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C47880502592ECF50058C771 /* Yoyo.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C4822DFF19F1EC0600B66A9A /* SummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4822DFE19F1EC0600B66A9A /* SummaryViewController.swift */; };
 		C4822E0119F1ECCA00B66A9A /* SummaryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4822E0019F1ECCA00B66A9A /* SummaryCollectionViewCell.swift */; };
 		C4D72EF9196E5045009A6B62 /* SetAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4D72EF8196E5045009A6B62 /* SetAppDelegate.swift */; };
@@ -88,10 +83,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				C47434DF235FE53900FAF340 /* RxCocoa.framework in Embed Frameworks */,
-				C47434D9235FE4EE00FAF340 /* RxRelay.framework in Embed Frameworks */,
+				C47880522592ECF50058C771 /* Yoyo.framework in Embed Frameworks */,
 				C4597613235E93F60079638C /* Swinject.framework in Embed Frameworks */,
-				C47434DC235FE4F200FAF340 /* RxSwift.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -130,11 +123,8 @@
 		C473CCB7238E1641007DC249 /* MockDeckManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDeckManager.swift; sourceTree = "<group>"; };
 		C473CCB9238E1F57007DC249 /* XCTestCaseHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCTestCaseHelpers.swift; sourceTree = "<group>"; };
 		C473CCBB238E34C7007DC249 /* TestDeckManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestDeckManager.swift; sourceTree = "<group>"; };
-		C47434D7235FE4EE00FAF340 /* RxRelay.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxRelay.framework; path = Carthage/Build/iOS/RxRelay.framework; sourceTree = "<group>"; };
-		C47434DA235FE4F200FAF340 /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = Carthage/Build/iOS/RxSwift.framework; sourceTree = "<group>"; };
-		C47434DD235FE53900FAF340 /* RxCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxCocoa.framework; path = Carthage/Build/iOS/RxCocoa.framework; sourceTree = "<group>"; };
 		C475E73A1B8EABF500A6CBB8 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
-		C47D2A69238DF06B00551AFA /* RxTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxTest.framework; path = Carthage/Build/iOS/RxTest.framework; sourceTree = "<group>"; };
+		C47880502592ECF50058C771 /* Yoyo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Yoyo.framework; path = Carthage/Build/iOS/Yoyo.framework; sourceTree = "<group>"; };
 		C4822DFE19F1EC0600B66A9A /* SummaryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SummaryViewController.swift; sourceTree = "<group>"; };
 		C4822E0019F1ECCA00B66A9A /* SummaryCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SummaryCollectionViewCell.swift; sourceTree = "<group>"; };
 		C4D72EF8196E5045009A6B62 /* SetAppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetAppDelegate.swift; sourceTree = "<group>"; };
@@ -145,13 +135,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C47880512592ECF50058C771 /* Yoyo.framework in Frameworks */,
 				C460603318A9B63700CC64D4 /* CoreGraphics.framework in Frameworks */,
 				C4597612235E93F60079638C /* Swinject.framework in Frameworks */,
-				C47434DE235FE53900FAF340 /* RxCocoa.framework in Frameworks */,
-				C47434DB235FE4F200FAF340 /* RxSwift.framework in Frameworks */,
 				C460603518A9B63700CC64D4 /* UIKit.framework in Frameworks */,
 				C460603118A9B63700CC64D4 /* Foundation.framework in Frameworks */,
-				C47434D8235FE4EE00FAF340 /* RxRelay.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -162,7 +150,6 @@
 				C460604A18A9B63700CC64D4 /* XCTest.framework in Frameworks */,
 				C460604C18A9B63700CC64D4 /* UIKit.framework in Frameworks */,
 				C460604B18A9B63700CC64D4 /* Foundation.framework in Frameworks */,
-				C47D2A6A238DF06B00551AFA /* RxTest.framework in Frameworks */,
 				C459761E235EA0790079638C /* SwiftMockObject.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -270,10 +257,7 @@
 		C460602F18A9B63700CC64D4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C47D2A69238DF06B00551AFA /* RxTest.framework */,
-				C47434DD235FE53900FAF340 /* RxCocoa.framework */,
-				C47434DA235FE4F200FAF340 /* RxSwift.framework */,
-				C47434D7235FE4EE00FAF340 /* RxRelay.framework */,
+				C47880502592ECF50058C771 /* Yoyo.framework */,
 				C459761D235EA0790079638C /* SwiftMockObject.framework */,
 				C4597611235E93F60079638C /* Swinject.framework */,
 				C460603018A9B63700CC64D4 /* Foundation.framework */,

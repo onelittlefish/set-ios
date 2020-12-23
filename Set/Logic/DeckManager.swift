@@ -6,90 +6,78 @@
 //
 
 import Foundation
-import RxRelay
-import RxSwift
+import Yoyo
 
 protocol DeckManagerProtocol {
-    var newGame: PublishRelay<Void> { get }
-    var addCards: PublishRelay<Void> { get }
-    var clearCards: PublishRelay<[Card]> { get }
+    var deck: Property<[Card]> { get }
+    var deal: Property<[Card]> { get }
 
-    var deck: Observable<[Card]> { get }
-    var deal: Observable<[Card]> { get }
-}
-
-struct DeckState {
-    let deck: [Card]
-    let deal: [Card]
-}
-
-enum DeckAction {
-    case newGame, addCards, clearCards([Card])
+    func newGame()
+    func addCards()
+    func clearCards(_ cards: [Card])
 }
 
 class DeckManager: DeckManagerProtocol {
-    let newGame = PublishRelay<Void>()
-    let addCards = PublishRelay<Void>()
-    let clearCards = PublishRelay<[Card]>()
+    let deck: Property<[Card]>
+    private let _deck = StoredProperty<[Card]>([])
 
-    let deck: Observable<[Card]>
-    let deal: Observable<[Card]>
-
-    private let disposeBag = DisposeBag()
+    let deal: Property<[Card]>
+    private let _deal = StoredProperty<[Card]>([])
 
     init() {
-        let actionsAffectingDeck = Observable.merge(
-            newGame.map({ _ in DeckAction.newGame }),
-            addCards.map({ _ in DeckAction.addCards }),
-            clearCards.map({ DeckAction.clearCards($0) })
-        )
+        deck = _deck
+        deal = _deal
+    }
 
-        let deckState: Observable<DeckState> = actionsAffectingDeck.scan(DeckState(deck: [], deal: []), accumulator: { deckState, action in
-            switch action {
-            case .newGame:
-                // Reset deck, deal out 12 cards
-                let newCards = Card.allCards().shuffled()
-                let newDeck = Array(newCards.dropLast(12))
-                let newDeal = Array(newCards.dropFirst(newCards.count - 12))
-                return DeckState(deck: newDeck, deal: newDeal)
-            case .addCards:
-                if deckState.deck.count >= 3 {
-                    // Deal out 3 cards
-                    let newDeck = Array(deckState.deck.dropLast(3))
-                    let newDeal = Array(deckState.deal + deckState.deck.dropFirst(deckState.deck.count - 3))
-                    return DeckState(deck: newDeck, deal: newDeal)
-                } else {
-                    // No more cards in deck
-                    return deckState
+    func newGame() {
+        // Reset deck, deal out 12 cards
+        let newCards = Card.allCards().shuffled()
+        let deal12 = deal(numberOfCards: 12, fromDeck: newCards)
+        _deck.value = deal12.deck
+        _deal.value = deal12.deal
+    }
+
+    func addCards() {
+        let deal3 = deal(numberOfCards: 3, fromDeck: deck.value)
+        _deck.value = deal3.deck
+        _deal.value = deal.value + deal3.deal
+    }
+
+    func clearCards(_ cards: [Card]) {
+        var currentDeck = deck.value
+        var currentDeal = deal.value
+
+        // Remove cards
+        let indicesToRemove = cards.compactMap({ currentDeal.firstIndex(of: $0) })
+        indicesToRemove.forEach({ index in
+            currentDeal.remove(at: index)
+
+            if currentDeal.count < 12 {
+                // Replace cleared card
+                let deal1 = deal(numberOfCards: 1, fromDeck: currentDeck)
+                if let newDeal = deal1.deal.first {
+                    currentDeck = deal1.deck
+                    currentDeal.insert(newDeal, at: index)
                 }
-            case .clearCards(let cards):
-                var currentDeck = deckState.deck
-                var currentDeal = deckState.deal
-
-                // Remove cards
-                for card in cards {
-                    guard let index = currentDeal.firstIndex(of: card) else {
-                        assertionFailure("Tried to clear a card that is not present in the deal")
-                        continue
-                    }
-
-                    currentDeal.remove(at: index)
-
-                    if currentDeal.count < 12 {
-                        // Replace cleared card
-                        if let newDeal = currentDeck.last {
-                            currentDeal.insert(newDeal, at: index)
-                            currentDeck = currentDeck.dropLast()
-                        }
-                    }
-                }
-
-                return DeckState(deck: currentDeck, deal: currentDeal)
             }
-        }).share()
+        })
 
-        deck = deckState.map({ $0.deck }).share()
-        deal = deckState.map({ $0.deal }).share()
+        _deck.value = currentDeck
+        _deal.value = currentDeal
+    }
+
+    /**
+     Removes cards from the deck and returns the modified deck and the cards that were removed (dealt).
+     If `numberOfCards` is greater than the number of cards in the deck, the entire remaining deck
+     will be dealt.
+     - returns: A tuple containing the deck after up to `numberOfCards` cards have been removed (`deck`)
+     and the cards that were removed (`deal`)
+     */
+    private func deal(numberOfCards: Int, fromDeck deck: [Card]) -> (deck: [Card], deal: [Card]) {
+        let numberOfCards = min(numberOfCards, deck.count)
+        let newDeck = Array(deck.dropLast(numberOfCards))
+        let deal = Array(deck.dropFirst(deck.count - numberOfCards))
+        return (newDeck, deal)
     }
 
 }

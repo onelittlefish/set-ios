@@ -7,37 +7,41 @@
 
 import Foundation
 import Swinject
-import RxSwift
-import RxRelay
+import Yoyo
 
 class SetViewModel {
     private let game: GameManagerProtocol!
 
-    let newGame = PublishRelay<Void>()
-    let addCards = PublishRelay<Void>()
-    let cardSelected = PublishRelay<IndexPath>()
-    let cardDeselected = PublishRelay<IndexPath>()
+    let addCardsEnabled: Property<Bool>
 
-    let deck: Observable<[Card]>
-    let deal: Observable<[Card]>
+    let deal: Property<[Card]>
 
-    let addCardsEnabled: Observable<Bool>
-
-    private let disposeBag = DisposeBag()
+    private let deck: Property<[Card]>
 
     init(container: Container) {
         game = container.resolve(GameManagerProtocol.self)!
 
-        newGame.bind(to: game.newGame).disposed(by: disposeBag)
-        addCards.bind(to: game.addCards).disposed(by: disposeBag)
-        cardSelected.map({ $0.row }).bind(to: game.cardSelected).disposed(by: disposeBag)
-        cardDeselected.map({ $0.row }).bind(to: game.cardDeselected).disposed(by: disposeBag)
-
         deck = game.deck
         deal = game.deal
 
-        addCardsEnabled = deck.map({ deck in
+        addCardsEnabled = DerivedProperty(game.deck) { deck in
             return deck.count > 0
-        })
+        }
+    }
+
+    func newGame() {
+        game.newGame()
+    }
+
+    func addCards() {
+        game.addCards()
+    }
+
+    func selectCard(atIndex index: Int) {
+        game.selectCard(atIndex: index)
+    }
+
+    func deselectCard(atIndex index: Int) {
+        game.deselectCard(atIndex: index)
     }
 }

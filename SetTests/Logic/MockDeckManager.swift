@@ -7,29 +7,28 @@
 
 import Foundation
 @testable import Set
-import RxSwift
-import RxRelay
-import RxTest
+import SwiftMockObject
+import Yoyo
 
-class MockDeckManager: DeckManagerProtocol {
-    let newGame = PublishRelay<Void>()
-    let addCards = PublishRelay<Void>()
-    let clearCards = PublishRelay<[Card]>()
+enum MockDeckManagerMethods {
+    case newGame
+    case addCards
+    case clearCards
+}
 
-    var deck: Observable<[Card]>
-    var deal: Observable<[Card]>
+class MockDeckManager: MockObject<MockDeckManagerMethods>, DeckManagerProtocol {
+    let deck: Property<[Card]> = StoredProperty([])
+    let deal: Property<[Card]> = StoredProperty([])
 
-    var scheduler: TestScheduler
+    func newGame() {
+        _onMethod(.newGame)
+    }
 
-    init(scheduler: TestScheduler) {
-        self.scheduler = scheduler
+    func addCards() {
+        _onMethod(.addCards)
+    }
 
-        deck = scheduler.createHotObservable([
-            .next(0, [])
-        ]).asObservable()
-
-        deal = scheduler.createHotObservable([
-            .next(0, [])
-        ]).asObservable()
+    func clearCards(_ cards: [Card]) {
+        _onMethod(.clearCards, args: cards)
     }
 }

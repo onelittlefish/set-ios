@@ -7,147 +7,72 @@
 
 import XCTest
 @testable import Set
-import Swinject
-import RxTest
-import RxSwift
-import RxCocoa
+import Yoyo
 
-class TestGameManager: XCTestCase { // swiftlint:disable:this type_body_length
-    private let scheduler = TestScheduler(initialClock: 0)
-    private let disposeBag = DisposeBag()
-
-    private var container: Container!
-
+class TestGameManager: XCTestCase {
     private var deckManager: MockDeckManager!
 
     private var manager: GameManager!
 
     override func setUp() {
-        deckManager = MockDeckManager(scheduler: scheduler)
-    }
-
-    private func initManager() {
+        deckManager = MockDeckManager()
         manager = GameManager(deckManager: deckManager)
     }
 
     func testDuplicateAndInvalidCardsSelected() {
-        var setSelectedElements: [[Card]] = []
-        deckManager.clearCards.subscribe({ event in
-            setSelectedElements.append(event.element!)
-        }).disposed(by: disposeBag)
+        (deckManager.deal as! StoredProperty).value = validSetAllDifferent()
 
-        deckManager.deal = scheduler.createHotObservable([
-            .next(0, validSetAllDifferent())
-        ]).asObservable()
+        manager.selectCard(atIndex: 0)
+        manager.selectCard(atIndex: 1)
+        manager.selectCard(atIndex: 1)
+        manager.selectCard(atIndex: 10)
+        manager.selectCard(atIndex: 2)
 
-        initManager()
-
-        let selected = scheduler.createHotObservable([
-            .next(10, 0),
-            .next(20, 1),
-            .next(30, 1),
-            .next(40, 10),
-            .next(50, 2)
-        ])
-        selected.bind(to: manager.cardSelected).disposed(by: disposeBag)
-
-        scheduler.start()
-
-        wait(milliseconds: 100) // wait for async scheduler
-        XCTAssertEqual(setSelectedElements, [validSetAllDifferent()])
+        MOAssertTimesCalled(deckManager.methodReference(.clearCards), 1)
+        MOAssertArgumentEquals(deckManager.methodReference(.clearCards), 1, validSetAllDifferent())
+        XCTAssertEqual(manager.numberOfSetsFound.value, 1)
     }
 
     func testDuplicateAndInvalidCardsDeselected() {
-        var setSelectedElements: [[Card]] = []
-        deckManager.clearCards.subscribe({ event in
-            setSelectedElements.append(event.element!)
-        }).disposed(by: disposeBag)
+        (deckManager.deal as! StoredProperty).value = validSetAllDifferent()
 
-        deckManager.deal = scheduler.createHotObservable([
-            .next(0, validSetAllDifferent())
-        ]).asObservable()
+        manager.selectCard(atIndex: 0)
 
-        initManager()
+        manager.deselectCard(atIndex: 0)
+        manager.deselectCard(atIndex: 0)
+        manager.deselectCard(atIndex: 10)
 
-        let selected = scheduler.createHotObservable([
-            .next(10, 0)
-        ])
-        let deselected = scheduler.createHotObservable([
-            .next(20, 0),
-            .next(30, 0),
-            .next(40, 10)
-        ])
-        selected.bind(to: manager.cardSelected).disposed(by: disposeBag)
-        deselected.bind(to: manager.cardDeselected).disposed(by: disposeBag)
+        manager.selectCard(atIndex: 1)
+        manager.selectCard(atIndex: 2)
 
-        scheduler.start()
-
-        wait(milliseconds: 100) // wait for async scheduler
-        XCTAssertEqual(setSelectedElements, [])
+        MOAssertTimesCalled(deckManager.methodReference(.clearCards), 0)
+        XCTAssertEqual(manager.numberOfSetsFound.value, 0)
     }
 
     func testSetSelected() {
-        var setSelectedElements: [[Card]] = []
-        deckManager.clearCards.subscribe({ event in
-            setSelectedElements.append(event.element!)
-        }).disposed(by: disposeBag)
+        (deckManager.deal as! StoredProperty).value = validSetAllDifferent()
 
-        deckManager.deal = scheduler.createHotObservable([
-            .next(0, validSetAllDifferent())
-        ]).asObservable()
+        manager.selectCard(atIndex: 0)
+        manager.selectCard(atIndex: 1)
+        manager.selectCard(atIndex: 2)
 
-        initManager()
-
-        let selected = scheduler.createHotObservable([
-            .next(10, 0),
-            .next(20, 1),
-            .next(30, 2)
-        ])
-        selected.bind(to: manager.cardSelected).disposed(by: disposeBag)
-
-        scheduler.start()
-
-        wait(milliseconds: 100) // wait for async scheduler
-        XCTAssertEqual(setSelectedElements, [validSetAllDifferent()])
+        MOAssertTimesCalled(deckManager.methodReference(.clearCards), 1)
+        MOAssertArgumentEquals(deckManager.methodReference(.clearCards), 1, validSetAllDifferent())
+        XCTAssertEqual(manager.numberOfSetsFound.value, 1)
     }
 
     func testNotASetSelected() {
-        var setSelectedElements: [[Card]] = []
-        deckManager.clearCards.subscribe({ event in
-            setSelectedElements.append(event.element!)
-        }).disposed(by: disposeBag)
+        (deckManager.deal as! StoredProperty).value = invalidSet()
 
-        deckManager.deal = scheduler.createHotObservable([
-            .next(0, invalidSet())
-        ]).asObservable()
+        manager.selectCard(atIndex: 0)
+        manager.selectCard(atIndex: 1)
+        manager.selectCard(atIndex: 2)
 
-        initManager()
-
-        let selected = scheduler.createHotObservable([
-            .next(10, 0),
-            .next(20, 1),
-            .next(30, 2)
-        ])
-        selected.bind(to: manager.cardSelected).disposed(by: disposeBag)
-
-        scheduler.start()
-
-        wait(milliseconds: 100) // wait for async scheduler
-        XCTAssertEqual(setSelectedElements, [])
+        MOAssertTimesCalled(deckManager.methodReference(.clearCards), 0)
+        XCTAssertEqual(manager.numberOfSetsFound.value, 0)
     }
 
     func testCardDeselected1() {
-        var setSelectedElements: [[Card]] = []
-        deckManager.clearCards.subscribe({ event in
-            setSelectedElements.append(event.element!)
-        }).disposed(by: disposeBag)
-
-        deckManager.deal = scheduler.createHotObservable([
-            .next(0, validSetAllDifferent() + validSetAllDifferent())
-        ]).asObservable()
-
-        initManager()
-
         /*
          Deal out 6 cards (valid set * 2)
          Select 0, 1
@@ -156,37 +81,19 @@ class TestGameManager: XCTestCase { // swiftlint:disable:this type_body_length
 
          Expectation: 1, 2, 3 is a valid set
          */
-        let selected = scheduler.createHotObservable([
-            .next(10, 0),
-            .next(20, 1),
-            .next(30, 2),
-            .next(40, 3)
-        ])
-        let deselected = scheduler.createHotObservable([
-            .next(25, 0)
-        ])
-        selected.bind(to: manager.cardSelected).disposed(by: disposeBag)
-        deselected.bind(to: manager.cardDeselected).disposed(by: disposeBag)
+        (deckManager.deal as! StoredProperty).value = validSetAllDifferent() + validSetAllDifferent()
 
-        scheduler.start()
+        manager.selectCard(atIndex: 0)
+        manager.selectCard(atIndex: 1)
+        manager.deselectCard(atIndex: 0)
+        manager.selectCard(atIndex: 2)
+        manager.selectCard(atIndex: 3)
 
-        wait(milliseconds: 100) // wait for async scheduler
         let expectedSet = [validSetAllDifferent()[1], validSetAllDifferent()[2], validSetAllDifferent()[0]]
-        XCTAssertEqual(setSelectedElements, [expectedSet])
+        MOAssertArgumentEquals(deckManager.methodReference(.clearCards), 1, expectedSet)
     }
 
     func testCardDeselected2() {
-        var setSelectedElements: [[Card]] = []
-        deckManager.clearCards.subscribe({ event in
-            setSelectedElements.append(event.element!)
-        }).disposed(by: disposeBag)
-
-        deckManager.deal = scheduler.createHotObservable([
-            .next(0, validSetAllDifferent() + invalidSet())
-        ]).asObservable()
-
-        initManager()
-
         /*
          Deal out 6 cards (valid set + invalid set)
          Select 0, 1
@@ -196,44 +103,24 @@ class TestGameManager: XCTestCase { // swiftlint:disable:this type_body_length
 
          Expectation: 0, 1, 2 is a valid set
          */
-        let selected = scheduler.createHotObservable([
-            .next(10, 0),
-            .next(20, 1),
-            .next(30, 2),
-            .next(40, 3),
-            .next(40, 0)
-        ])
-        let deselected = scheduler.createHotObservable([
-            .next(25, 0),
-            .next(45, 3)
-        ])
-        selected.bind(to: manager.cardSelected).disposed(by: disposeBag)
-        deselected.bind(to: manager.cardDeselected).disposed(by: disposeBag)
+        (deckManager.deal as! StoredProperty).value = validSetAllDifferent() + invalidSet()
 
-        scheduler.start()
+        manager.selectCard(atIndex: 0)
+        manager.selectCard(atIndex: 1)
+        manager.deselectCard(atIndex: 0)
+        manager.selectCard(atIndex: 2)
+        manager.selectCard(atIndex: 3)
+        manager.selectCard(atIndex: 0)
+        manager.deselectCard(atIndex: 3)
 
-        wait(milliseconds: 100) // wait for async scheduler
         let expectedSet = [validSetAllDifferent()[1], validSetAllDifferent()[2], validSetAllDifferent()[0]]
-        XCTAssertEqual(setSelectedElements, [expectedSet])
+        MOAssertArgumentEquals(deckManager.methodReference(.clearCards), 1, expectedSet)
     }
 
     func testSelectedCardsClearedAfterSetSelected() {
-        var setSelectedElements: [[Card]] = []
-        deckManager.clearCards.subscribe({ event in
-            setSelectedElements.append(event.element!)
-        }).disposed(by: disposeBag)
-
-        deckManager.deal = scheduler.createHotObservable([
-            .next(0, validSetAllDifferent()),
-            .next(31, validSetShapeDifferent())
-        ]).asObservable()
-
-        initManager()
-
         /*
          Deal out 3 cards (valid set)
          Select set 0, 1, 2
-         Wait for async setSelected event
          Deal out 3 different cards (valid set)
          Deselect 2
          Select 2
@@ -241,36 +128,22 @@ class TestGameManager: XCTestCase { // swiftlint:disable:this type_body_length
          Expectation: Deselecting and reselecting 2 should not count as a
          valid set since the 0, 1, 2 selection should have been cleared out.
          */
-        let selected = scheduler.createHotObservable([
-            .next(10, 0),
-            .next(20, 1),
-            .next(30, 2),
-            .next(40, 2)
-        ])
-        let deselected = scheduler.createHotObservable([
-            .next(35, 2)
-        ])
-        selected.bind(to: manager.cardSelected).disposed(by: disposeBag)
-        deselected.bind(to: manager.cardDeselected).disposed(by: disposeBag)
+        deckManager.methodReference(.clearCards).setCustomBehavior({ [unowned self] _ in
+            (self.deckManager.deal as! StoredProperty).value = validSetShapeDifferent()
+        })
+        (deckManager.deal as! StoredProperty).value = validSetAllDifferent()
 
-        scheduler.advanceTo(30)
-        wait(milliseconds: 100) // wait for async scheduler
-        XCTAssertEqual(setSelectedElements.count, 1)
+        manager.selectCard(atIndex: 0)
+        manager.selectCard(atIndex: 1)
+        manager.selectCard(atIndex: 2)
 
-        scheduler.advanceTo(50)
-        wait(milliseconds: 100) // wait for async scheduler
-        XCTAssertEqual(setSelectedElements.count, 1)
+        manager.deselectCard(atIndex: 2)
+        manager.selectCard(atIndex: 2)
+
+        MOAssertTimesCalled(deckManager.methodReference(.clearCards), 1)
     }
 
     func testNumberOfSetsFound() {
-        deckManager.deal = scheduler.createHotObservable([
-            .next(0, validSetAllDifferent())
-        ]).asObservable()
-
-        initManager()
-        let numberOfSetsFound = scheduler.createObserver(Int.self)
-        manager.numberOfSetsFound.asDriver(onErrorJustReturn: 0).drive(numberOfSetsFound).disposed(by: disposeBag)
-
         /*
          Deal out 3 cards (valid set)
          Select set 0, 1, 2
@@ -278,50 +151,28 @@ class TestGameManager: XCTestCase { // swiftlint:disable:this type_body_length
          Add cards
          Start a new game
          */
-        let selected = scheduler.createHotObservable([
-            .next(10, 0),
-            .next(20, 1),
-            .next(30, 2)
-        ])
-        selected.bind(to: manager.cardSelected).disposed(by: disposeBag)
-        scheduler.createHotObservable([
-            .next(40, ())
-        ]).bind(to: manager.addCards).disposed(by: disposeBag)
-        scheduler.createHotObservable([
-            .next(50, ())
-        ]).bind(to: manager.newGame).disposed(by: disposeBag)
+        (deckManager.deal as! StoredProperty).value = validSetAllDifferent()
 
-        scheduler.advanceTo(30)
-        wait(milliseconds: 100) // wait for async scheduler
-        XCTAssertEqual(numberOfSetsFound.events, [
-            .next(30, 1)
-        ])
+        manager.selectCard(atIndex: 0)
+        manager.selectCard(atIndex: 1)
+        manager.selectCard(atIndex: 2)
 
-        scheduler.advanceTo(50)
-        XCTAssertEqual(numberOfSetsFound.events, [
-            .next(30, 1),
-            .next(50, 0)
-        ])
+        XCTAssertEqual(manager.numberOfSetsFound.value, 1)
+
+        manager.addCards()
+        manager.newGame()
+        XCTAssertEqual(manager.numberOfSetsFound.value, 0)
     }
 
     func testNumberOfSets() {
-        deckManager.deal = scheduler.createHotObservable([
-            .next(0, invalidSet()),
-            .next(10, validSetAllDifferent()),
-            .next(20, threeSets())
-        ]).asObservable()
+        (deckManager.deal as! StoredProperty).value = invalidSet()
+        XCTAssertEqual(manager.numberOfSetsInDeal.value, 0)
 
-        initManager()
-        let numberOfSetsInDeal = scheduler.createObserver(Int.self)
-        manager.numberOfSetsInDeal.asDriver(onErrorJustReturn: 0).drive(numberOfSetsInDeal).disposed(by: disposeBag)
+        (deckManager.deal as! StoredProperty).value = validSetAllDifferent()
+        XCTAssertEqual(manager.numberOfSetsInDeal.value, 1)
 
-        scheduler.start()
-
-        XCTAssertEqual(numberOfSetsInDeal.events, [
-            .next(0, 0),
-            .next(10, 1),
-            .next(20, 3)
-        ])
+        (deckManager.deal as! StoredProperty).value = threeSets()
+        XCTAssertEqual(manager.numberOfSetsInDeal.value, 3)
     }
 
     // MARK: - Helpers
