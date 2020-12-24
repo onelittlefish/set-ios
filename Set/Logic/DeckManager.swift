@@ -48,8 +48,9 @@ class DeckManager: DeckManagerProtocol {
         var currentDeal = deal.value
 
         // Remove cards
-        let indicesToRemove = cards.compactMap({ currentDeal.firstIndex(of: $0) })
-        indicesToRemove.forEach({ index in
+        let validCards = cards.filter({ currentDeal.contains($0) })
+        validCards.forEach({ card in
+            guard let index = currentDeal.firstIndex(of: card) else { return }
             currentDeal.remove(at: index)
 
             if currentDeal.count < 12 {

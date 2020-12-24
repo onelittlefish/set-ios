@@ -78,13 +78,26 @@ class TestDeckManager: XCTestCase {
         secondDeal[0...2].forEach({ XCTAssertFalse(firstDeal.contains($0), "New cards should be added") })
     }
 
-    func testClearCardsMoreThan12CardsInDeal() {
+    func testClearFirstCardsMoreThan12CardsInDeal() {
         manager.newGame()
         manager.addCards()
 
         // Clear the first 3 cards
         let currentDeal = manager.deal.value
         let set = Array(currentDeal[0...2])
+        manager.clearCards(set)
+
+        XCTAssertEqual(manager.deck.value.count, 81 - 12 - 3, "More cards should not be dealt if deal already had more than 12")
+        XCTAssertEqual(manager.deal.value.count, 12)
+    }
+
+    func testClearLastCardsMoreThan12CardsInDeal() {
+        manager.newGame()
+        manager.addCards()
+
+        // Clear the first 3 cards
+        let currentDeal = manager.deal.value
+        let set = Array(currentDeal[(currentDeal.count - 3)...])
         manager.clearCards(set)
 
         XCTAssertEqual(manager.deck.value.count, 81 - 12 - 3, "More cards should not be dealt if deal already had more than 12")
