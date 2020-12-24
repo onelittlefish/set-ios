@@ -64,9 +64,9 @@ class CardSymbolView: UIView {
         case .lined:
             shapeContext.saveGState()
 
-            UIGraphicsBeginImageContext(CGSize(width: shapeWidth, height: 6))
+            UIGraphicsBeginImageContext(CGSize(width: shapeWidth, height: 12))
             fillColor.setFill()
-            UIRectFill(CGRect(x: 0, y: 0, width: shapeWidth, height: 2))
+            UIRectFill(CGRect(x: 0, y: 0, width: shapeWidth, height: 4))
             let pattern = UIGraphicsGetImageFromCurrentImageContext()
             UIGraphicsEndImageContext()
 
