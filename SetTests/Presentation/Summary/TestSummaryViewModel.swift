@@ -27,7 +27,7 @@ class TestSummaryViewModel: XCTestCase {
 
     func testStats() {
         (game.numberOfSetsFound as! StoredProperty).value = 1
-        (game.deck as! StoredProperty).value = Card.allCards()
+        (game.deck as! StoredProperty).value = Card.allCards
         (game.numberOfSetsInDeal as! StoredProperty).value = 3
 
         let stats1 = model.stats.value

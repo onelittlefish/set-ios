@@ -48,8 +48,7 @@ class TestCard: XCTestCase {
     }
 
     func testAllCards() {
-        let allCards = Card.allCards()
-        XCTAssertEqual(81, allCards.count)
+        XCTAssertEqual(81, Card.allCards.count)
     }
 
     func testThirdCardForSetAllDifferent() {

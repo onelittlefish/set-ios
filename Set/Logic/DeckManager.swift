@@ -31,7 +31,7 @@ class DeckManager: DeckManagerProtocol {
 
     func newGame() {
         // Reset deck, deal out 12 cards
-        let newCards = Card.allCards().shuffled()
+        let newCards = Card.allCards.shuffled()
         let deal12 = deal(numberOfCards: 12, fromDeck: newCards)
         _deck.value = deal12.deck
         _deal.value = deal12.deal

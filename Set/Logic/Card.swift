@@ -37,7 +37,7 @@ struct Card {
     let shape: Shape
     let fill: Fill
 
-    static func allCards() -> [Card] {
+    static var allCards: [Card] = {
         var cards = [Card]()
         for color in Color.allCases {
             for number in Number.allCases {
@@ -50,7 +50,7 @@ struct Card {
             }
         }
         return cards
-    }
+    }()
 
     static func thirdCardForSetWith(_ card1: Card, _ card2: Card) -> Card {
         let color = thirdProperty(fromList: Card.Color.allCases, formingSetWith: card1.color, card2.color)
@@ -70,12 +70,19 @@ struct Card {
     }
 }
 
-extension Card: Equatable {
+extension Card: Hashable {
     static func == (lhs: Card, rhs: Card) -> Bool {
         return lhs.color == rhs.color &&
             lhs.number == rhs.number &&
             lhs.shape == rhs.shape &&
             lhs.fill == rhs.fill
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(color)
+        hasher.combine(number)
+        hasher.combine(shape)
+        hasher.combine(fill)
     }
 }
 

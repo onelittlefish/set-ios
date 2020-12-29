@@ -51,9 +51,10 @@ class SetViewController: UIViewController, UICollectionViewDataSource, UICollect
 
         model.newGame()
 
-        updater.onTransition(model.deal) { [unowned self] _, _ in
-            self.collectionView.reloadData()
-        }
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadCards), name: .SetViewModelReloadAllCards, object: model)
+        NotificationCenter.default.addObserver(self, selector: #selector(cardsAdded(notif:)), name: .SetViewModelCardsAdded, object: model)
+        NotificationCenter.default.addObserver(self, selector: #selector(cardsRemoved(notif:)), name: .SetViewModelCardsRemoved, object: model)
+        NotificationCenter.default.addObserver(self, selector: #selector(cardsReplaced(notif:)), name: .SetViewModelCardsReplaced, object: model)
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -73,6 +74,26 @@ class SetViewController: UIViewController, UICollectionViewDataSource, UICollect
 
     @objc private func addCards() {
         model.addCards()
+    }
+
+    @objc private func reloadCards() {
+        collectionView.reloadData()
+    }
+
+    @objc private func cardsAdded(notif: Notification) {
+        guard let indexPaths = notif.userInfo?["indexPaths"] as? [IndexPath] else { return }
+        collectionView.insertItems(at: indexPaths)
+        collectionView.scrollToItem(at: IndexPath(item: model.deal.value.count - 1, section: 0), at: .bottom, animated: true)
+    }
+
+    @objc private func cardsRemoved(notif: Notification) {
+        guard let indexPaths = notif.userInfo?["indexPaths"] as? [IndexPath] else { return }
+        collectionView.deleteItems(at: indexPaths)
+    }
+
+    @objc private func cardsReplaced(notif: Notification) {
+        guard let indexPaths = notif.userInfo?["indexPaths"] as? [IndexPath] else { return }
+        collectionView.reloadItems(at: indexPaths)
     }
 
     // MARK: - UICollectionViewDataSource
@@ -99,10 +120,10 @@ class SetViewController: UIViewController, UICollectionViewDataSource, UICollect
     // MARK: - UICollectionViewDelegate
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        model.selectCard(atIndex: indexPath.row)
+        model.selectCard(atIndex: indexPath.item)
     }
 
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        model.deselectCard(atIndex: indexPath.row)
+        model.deselectCard(atIndex: indexPath.item)
     }
 }
