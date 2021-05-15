@@ -1,0 +1,25 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Swinject",
+        "repositoryURL": "https://github.com/Swinject/Swinject",
+        "state": {
+          "branch": null,
+          "revision": "8a76d2c74bafbb455763487cc6a08e91bad1f78b",
+          "version": "2.7.1"
+        }
+      },
+      {
+        "package": "Yoyo",
+        "repositoryURL": "https://github.com/bluejeans/Yoyo",
+        "state": {
+          "branch": null,
+          "revision": "f8d077ae86245b0dda6b6b7cd45290e493d43cb9",
+          "version": "1.0.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

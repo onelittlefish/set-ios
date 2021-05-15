@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -14,13 +14,10 @@
 		C458DC7B196E7F980064E0C6 /* CardSymbolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C458DC77196E7F980064E0C6 /* CardSymbolView.swift */; };
 		C458DC83196F1C6C0064E0C6 /* TestCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = C458DC82196F1C6C0064E0C6 /* TestCard.swift */; };
 		C458DC85196F1D5C0064E0C6 /* TestGameManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C458DC84196F1D5C0064E0C6 /* TestGameManager.swift */; };
-		C4597612235E93F60079638C /* Swinject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4597611235E93F60079638C /* Swinject.framework */; };
-		C4597613235E93F60079638C /* Swinject.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C4597611235E93F60079638C /* Swinject.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C4597616235E95830079638C /* SetContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4597615235E95830079638C /* SetContainer.swift */; };
 		C4597618235E95A00079638C /* GameManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4597617235E95A00079638C /* GameManager.swift */; };
 		C459761A235E971F0079638C /* SetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4597619235E971F0079638C /* SetViewModel.swift */; };
 		C459761C235E98830079638C /* SummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C459761B235E98830079638C /* SummaryViewModel.swift */; };
-		C459761E235EA0790079638C /* SwiftMockObject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C459761D235EA0790079638C /* SwiftMockObject.framework */; };
 		C4597620235EA08A0079638C /* MockGameManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C459761F235EA08A0079638C /* MockGameManager.swift */; };
 		C4597622235EA1480079638C /* TestSummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4597621235EA1480079638C /* TestSummaryViewModel.swift */; };
 		C4597625235EA3BE0079638C /* TestSetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4597624235EA3BE0079638C /* TestSetViewModel.swift */; };
@@ -29,44 +26,23 @@
 		C460603518A9B63700CC64D4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C460603418A9B63700CC64D4 /* UIKit.framework */; };
 		C460603B18A9B63700CC64D4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C460603918A9B63700CC64D4 /* InfoPlist.strings */; };
 		C460604318A9B63700CC64D4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C460604218A9B63700CC64D4 /* Images.xcassets */; };
-		C460604A18A9B63700CC64D4 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C460604918A9B63700CC64D4 /* XCTest.framework */; };
 		C460604B18A9B63700CC64D4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C460603018A9B63700CC64D4 /* Foundation.framework */; };
 		C460604C18A9B63700CC64D4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C460603418A9B63700CC64D4 /* UIKit.framework */; };
 		C460605418A9B63700CC64D4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C460605218A9B63700CC64D4 /* InfoPlist.strings */; };
+		C46896D9264F678300A7ACD6 /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = C46896D8264F678300A7ACD6 /* Swinject */; };
+		C46896DC264F67B700A7ACD6 /* Yoyo in Frameworks */ = {isa = PBXBuildFile; productRef = C46896DB264F67B700A7ACD6 /* Yoyo */; };
+		C46896E3264F9A5A00A7ACD6 /* SwiftMockObject.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = C46896E2264F9A5A00A7ACD6 /* SwiftMockObject.xcframework */; };
 		C473CCB6238E126F007DC249 /* DeckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C473CCB5238E126F007DC249 /* DeckManager.swift */; };
 		C473CCB8238E1641007DC249 /* MockDeckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C473CCB7238E1641007DC249 /* MockDeckManager.swift */; };
 		C473CCBA238E1F57007DC249 /* XCTestCaseHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C473CCB9238E1F57007DC249 /* XCTestCaseHelpers.swift */; };
 		C473CCBC238E34C7007DC249 /* TestDeckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C473CCBB238E34C7007DC249 /* TestDeckManager.swift */; };
 		C475E73B1B8EABF500A6CBB8 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C475E73A1B8EABF500A6CBB8 /* Colors.swift */; };
-		C47880512592ECF50058C771 /* Yoyo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C47880502592ECF50058C771 /* Yoyo.framework */; };
-		C47880522592ECF50058C771 /* Yoyo.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C47880502592ECF50058C771 /* Yoyo.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C4822DFF19F1EC0600B66A9A /* SummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4822DFE19F1EC0600B66A9A /* SummaryViewController.swift */; };
 		C4822E0119F1ECCA00B66A9A /* SummaryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4822E0019F1ECCA00B66A9A /* SummaryCollectionViewCell.swift */; };
 		C4D72EF9196E5045009A6B62 /* SetAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4D72EF8196E5045009A6B62 /* SetAppDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		C458DC7C196F1B630064E0C6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C460602518A9B63700CC64D4 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = C460602C18A9B63700CC64D4;
-			remoteInfo = Set;
-		};
-		C458DC7E196F1B640064E0C6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C460602518A9B63700CC64D4 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = C460602C18A9B63700CC64D4;
-			remoteInfo = Set;
-		};
-		C458DC80196F1B650064E0C6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C460602518A9B63700CC64D4 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = C460602C18A9B63700CC64D4;
-			remoteInfo = Set;
-		};
 		C460604D18A9B63700CC64D4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C460602518A9B63700CC64D4 /* Project object */;
@@ -76,21 +52,6 @@
 		};
 /* End PBXContainerItemProxy section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		C4597614235E93F60079638C /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				C47880522592ECF50058C771 /* Yoyo.framework in Embed Frameworks */,
-				C4597613235E93F60079638C /* Swinject.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
 		C458DC6E196E7F860064E0C6 /* Card.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		C458DC73196E7F980064E0C6 /* SetViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = SetViewController.storyboard; sourceTree = "<group>"; };
@@ -99,12 +60,10 @@
 		C458DC77196E7F980064E0C6 /* CardSymbolView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardSymbolView.swift; sourceTree = "<group>"; };
 		C458DC82196F1C6C0064E0C6 /* TestCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestCard.swift; sourceTree = "<group>"; };
 		C458DC84196F1D5C0064E0C6 /* TestGameManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestGameManager.swift; sourceTree = "<group>"; };
-		C4597611235E93F60079638C /* Swinject.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Swinject.framework; path = Carthage/Build/iOS/Swinject.framework; sourceTree = "<group>"; };
 		C4597615235E95830079638C /* SetContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetContainer.swift; sourceTree = "<group>"; };
 		C4597617235E95A00079638C /* GameManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameManager.swift; sourceTree = "<group>"; };
 		C4597619235E971F0079638C /* SetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetViewModel.swift; sourceTree = "<group>"; };
 		C459761B235E98830079638C /* SummaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryViewModel.swift; sourceTree = "<group>"; };
-		C459761D235EA0790079638C /* SwiftMockObject.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftMockObject.framework; path = Carthage/Build/iOS/SwiftMockObject.framework; sourceTree = "<group>"; };
 		C459761F235EA08A0079638C /* MockGameManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockGameManager.swift; sourceTree = "<group>"; };
 		C4597621235EA1480079638C /* TestSummaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSummaryViewModel.swift; sourceTree = "<group>"; };
 		C4597624235EA3BE0079638C /* TestSetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSetViewModel.swift; sourceTree = "<group>"; };
@@ -116,15 +75,14 @@
 		C460603A18A9B63700CC64D4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C460604218A9B63700CC64D4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		C460604818A9B63700CC64D4 /* SetTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SetTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		C460604918A9B63700CC64D4 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		C460605118A9B63700CC64D4 /* SetTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SetTests-Info.plist"; sourceTree = "<group>"; };
 		C460605318A9B63700CC64D4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		C46896E2264F9A5A00A7ACD6 /* SwiftMockObject.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = SwiftMockObject.xcframework; path = Carthage/Build/SwiftMockObject.xcframework; sourceTree = "<group>"; };
 		C473CCB5238E126F007DC249 /* DeckManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckManager.swift; sourceTree = "<group>"; };
 		C473CCB7238E1641007DC249 /* MockDeckManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDeckManager.swift; sourceTree = "<group>"; };
 		C473CCB9238E1F57007DC249 /* XCTestCaseHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCTestCaseHelpers.swift; sourceTree = "<group>"; };
 		C473CCBB238E34C7007DC249 /* TestDeckManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestDeckManager.swift; sourceTree = "<group>"; };
 		C475E73A1B8EABF500A6CBB8 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
-		C47880502592ECF50058C771 /* Yoyo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Yoyo.framework; path = Carthage/Build/iOS/Yoyo.framework; sourceTree = "<group>"; };
 		C4822DFE19F1EC0600B66A9A /* SummaryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SummaryViewController.swift; sourceTree = "<group>"; };
 		C4822E0019F1ECCA00B66A9A /* SummaryCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SummaryCollectionViewCell.swift; sourceTree = "<group>"; };
 		C4D72EF8196E5045009A6B62 /* SetAppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetAppDelegate.swift; sourceTree = "<group>"; };
@@ -135,10 +93,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C47880512592ECF50058C771 /* Yoyo.framework in Frameworks */,
+				C46896D9264F678300A7ACD6 /* Swinject in Frameworks */,
 				C460603318A9B63700CC64D4 /* CoreGraphics.framework in Frameworks */,
-				C4597612235E93F60079638C /* Swinject.framework in Frameworks */,
 				C460603518A9B63700CC64D4 /* UIKit.framework in Frameworks */,
+				C46896DC264F67B700A7ACD6 /* Yoyo in Frameworks */,
 				C460603118A9B63700CC64D4 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -147,10 +105,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C460604A18A9B63700CC64D4 /* XCTest.framework in Frameworks */,
 				C460604C18A9B63700CC64D4 /* UIKit.framework in Frameworks */,
 				C460604B18A9B63700CC64D4 /* Foundation.framework in Frameworks */,
-				C459761E235EA0790079638C /* SwiftMockObject.framework in Frameworks */,
+				C46896E3264F9A5A00A7ACD6 /* SwiftMockObject.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,13 +214,10 @@
 		C460602F18A9B63700CC64D4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C47880502592ECF50058C771 /* Yoyo.framework */,
-				C459761D235EA0790079638C /* SwiftMockObject.framework */,
-				C4597611235E93F60079638C /* Swinject.framework */,
-				C460603018A9B63700CC64D4 /* Foundation.framework */,
 				C460603218A9B63700CC64D4 /* CoreGraphics.framework */,
+				C460603018A9B63700CC64D4 /* Foundation.framework */,
+				C46896E2264F9A5A00A7ACD6 /* SwiftMockObject.xcframework */,
 				C460603418A9B63700CC64D4 /* UIKit.framework */,
-				C460604918A9B63700CC64D4 /* XCTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -330,13 +284,16 @@
 				C460602A18A9B63700CC64D4 /* Frameworks */,
 				C460602B18A9B63700CC64D4 /* Resources */,
 				C416FA111C911324009EBF1C /* Swiftlint */,
-				C4597614235E93F60079638C /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = Set;
+			packageProductDependencies = (
+				C46896D8264F678300A7ACD6 /* Swinject */,
+				C46896DB264F67B700A7ACD6 /* Yoyo */,
+			);
 			productName = Set;
 			productReference = C460602D18A9B63700CC64D4 /* Set.app */;
 			productType = "com.apple.product-type.application";
@@ -348,15 +305,11 @@
 				C460604418A9B63700CC64D4 /* Sources */,
 				C460604518A9B63700CC64D4 /* Frameworks */,
 				C460604618A9B63700CC64D4 /* Resources */,
-				C4597623235EA2300079638C /* Carthage Copy Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				C460604E18A9B63700CC64D4 /* PBXTargetDependency */,
-				C458DC7D196F1B630064E0C6 /* PBXTargetDependency */,
-				C458DC7F196F1B640064E0C6 /* PBXTargetDependency */,
-				C458DC81196F1B650064E0C6 /* PBXTargetDependency */,
 			);
 			name = SetTests;
 			productName = SetTests;
@@ -393,6 +346,10 @@
 				Base,
 			);
 			mainGroup = C460602418A9B63700CC64D4;
+			packageReferences = (
+				C46896D7264F678300A7ACD6 /* XCRemoteSwiftPackageReference "Swinject" */,
+				C46896DA264F67B700A7ACD6 /* XCRemoteSwiftPackageReference "Yoyo" */,
+			);
 			productRefGroup = C460602E18A9B63700CC64D4 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -439,27 +396,6 @@
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
 		};
-		C4597623235EA2300079638C /* Carthage Copy Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/SwiftMockObject.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/RxTest.framework",
-			);
-			name = "Carthage Copy Frameworks";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/SwiftMockObject.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -501,21 +437,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		C458DC7D196F1B630064E0C6 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = C460602C18A9B63700CC64D4 /* Set */;
-			targetProxy = C458DC7C196F1B630064E0C6 /* PBXContainerItemProxy */;
-		};
-		C458DC7F196F1B640064E0C6 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = C460602C18A9B63700CC64D4 /* Set */;
-			targetProxy = C458DC7E196F1B640064E0C6 /* PBXContainerItemProxy */;
-		};
-		C458DC81196F1B650064E0C6 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = C460602C18A9B63700CC64D4 /* Set */;
-			targetProxy = C458DC80196F1B650064E0C6 /* PBXContainerItemProxy */;
-		};
 		C460604E18A9B63700CC64D4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C460602C18A9B63700CC64D4 /* Set */;
@@ -643,7 +564,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -657,14 +579,14 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = "";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Set/Set-Prefix.pch";
 				INFOPLIST_FILE = "Set/Set-Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.jihanchao.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -685,14 +607,14 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = "";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Set/Set-Prefix.pch";
 				INFOPLIST_FILE = "Set/Set-Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.jihanchao.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -712,7 +634,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/Carthage/Build",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Set/Set-Prefix.pch";
@@ -721,7 +643,11 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "SetTests/SetTests-Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.jihanchao.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -740,12 +666,16 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/Carthage/Build",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Set/Set-Prefix.pch";
 				INFOPLIST_FILE = "SetTests/SetTests-Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.jihanchao.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -786,6 +716,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C46896D7264F678300A7ACD6 /* XCRemoteSwiftPackageReference "Swinject" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Swinject/Swinject";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 2.7.1;
+			};
+		};
+		C46896DA264F67B700A7ACD6 /* XCRemoteSwiftPackageReference "Yoyo" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/bluejeans/Yoyo";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C46896D8264F678300A7ACD6 /* Swinject */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C46896D7264F678300A7ACD6 /* XCRemoteSwiftPackageReference "Swinject" */;
+			productName = Swinject;
+		};
+		C46896DB264F67B700A7ACD6 /* Yoyo */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C46896DA264F67B700A7ACD6 /* XCRemoteSwiftPackageReference "Yoyo" */;
+			productName = Yoyo;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C460602518A9B63700CC64D4 /* Project object */;
 }
