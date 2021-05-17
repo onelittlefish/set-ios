@@ -18,7 +18,9 @@ protocol GameManagerProtocol {
     func newGame()
     func addCards()
     func selectCard(atIndex index: Int)
+    func selectCard(_ card: Card)
     func deselectCard(atIndex index: Int)
+    func deselectCard(_ card: Card)
 }
 
 class GameManager: GameManagerProtocol {
@@ -82,6 +84,10 @@ class GameManager: GameManagerProtocol {
     func selectCard(atIndex index: Int) {
         guard deal.value.count > index else { print("Attempted to select card at invalid index \(index)"); return }
         let card = deal.value[index]
+        selectCard(card)
+    }
+
+    func selectCard(_ card: Card) {
         if !selectedCards.value.contains(card) {
             selectedCards.value.append(card)
         }
@@ -90,6 +96,10 @@ class GameManager: GameManagerProtocol {
     func deselectCard(atIndex index: Int) {
         guard deal.value.count > index else { print("Attempted to deselect card at invalid index \(index)"); return }
         let card = deal.value[index]
+        deselectCard(card)
+    }
+
+    func deselectCard(_ card: Card) {
         selectedCards.value.removeAll(where: { $0 == card })
     }
 

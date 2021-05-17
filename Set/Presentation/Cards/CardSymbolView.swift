@@ -14,6 +14,7 @@ class CardSymbolView: UIView {
     init(frame: CGRect, card: Card) {
         self.card = card
         super.init(frame: frame)
+        backgroundColor = .clear
     }
 
     // MARK: - NSCoding

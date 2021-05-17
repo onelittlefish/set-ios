@@ -39,6 +39,19 @@
 		C475E73B1B8EABF500A6CBB8 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C475E73A1B8EABF500A6CBB8 /* Colors.swift */; };
 		C4822DFF19F1EC0600B66A9A /* SummaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4822DFE19F1EC0600B66A9A /* SummaryViewController.swift */; };
 		C4822E0119F1ECCA00B66A9A /* SummaryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4822E0019F1ECCA00B66A9A /* SummaryCollectionViewCell.swift */; };
+		C4B675A22651DF6D006D01FE /* SetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4B675A12651DF6D006D01FE /* SetView.swift */; };
+		C4B675A52651E576006D01FE /* CardSymbolViewWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4B675A42651E576006D01FE /* CardSymbolViewWrapper.swift */; };
+		C4B675A72651E5C8006D01FE /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4B675A62651E5C8006D01FE /* CardView.swift */; };
+		C4B675A92651E649006D01FE /* CardGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4B675A82651E649006D01FE /* CardGridView.swift */; };
+		C4B675AB2651E782006D01FE /* SummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4B675AA2651E782006D01FE /* SummaryView.swift */; };
+		C4B675AD2651EB9B006D01FE /* CardGridViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4B675AC2651EB9B006D01FE /* CardGridViewModel.swift */; };
+		C4B675AF2651EBE1006D01FE /* CardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4B675AE2651EBE1006D01FE /* CardViewModel.swift */; };
+		C4B675B12651EC10006D01FE /* SUISetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4B675B02651EC10006D01FE /* SUISetViewModel.swift */; };
+		C4B675B32651EC58006D01FE /* SUISummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4B675B22651EC58006D01FE /* SUISummaryViewModel.swift */; };
+		C4B675B52651ED82006D01FE /* TestSUISummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4B675B42651ED82006D01FE /* TestSUISummaryViewModel.swift */; };
+		C4B675B72651EF5B006D01FE /* TestCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4B675B62651EF5B006D01FE /* TestCardViewModel.swift */; };
+		C4B675B92651F0D8006D01FE /* TestCardGridViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4B675B82651F0D8006D01FE /* TestCardGridViewModel.swift */; };
+		C4B675BB2651F1E6006D01FE /* TestSUISetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4B675BA2651F1E6006D01FE /* TestSUISetViewModel.swift */; };
 		C4D72EF9196E5045009A6B62 /* SetAppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4D72EF8196E5045009A6B62 /* SetAppDelegate.swift */; };
 /* End PBXBuildFile section */
 
@@ -85,6 +98,19 @@
 		C475E73A1B8EABF500A6CBB8 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		C4822DFE19F1EC0600B66A9A /* SummaryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SummaryViewController.swift; sourceTree = "<group>"; };
 		C4822E0019F1ECCA00B66A9A /* SummaryCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SummaryCollectionViewCell.swift; sourceTree = "<group>"; };
+		C4B675A12651DF6D006D01FE /* SetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetView.swift; sourceTree = "<group>"; };
+		C4B675A42651E576006D01FE /* CardSymbolViewWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardSymbolViewWrapper.swift; sourceTree = "<group>"; };
+		C4B675A62651E5C8006D01FE /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		C4B675A82651E649006D01FE /* CardGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardGridView.swift; sourceTree = "<group>"; };
+		C4B675AA2651E782006D01FE /* SummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryView.swift; sourceTree = "<group>"; };
+		C4B675AC2651EB9B006D01FE /* CardGridViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardGridViewModel.swift; sourceTree = "<group>"; };
+		C4B675AE2651EBE1006D01FE /* CardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewModel.swift; sourceTree = "<group>"; };
+		C4B675B02651EC10006D01FE /* SUISetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SUISetViewModel.swift; sourceTree = "<group>"; };
+		C4B675B22651EC58006D01FE /* SUISummaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SUISummaryViewModel.swift; sourceTree = "<group>"; };
+		C4B675B42651ED82006D01FE /* TestSUISummaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSUISummaryViewModel.swift; sourceTree = "<group>"; };
+		C4B675B62651EF5B006D01FE /* TestCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCardViewModel.swift; sourceTree = "<group>"; };
+		C4B675B82651F0D8006D01FE /* TestCardGridViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCardGridViewModel.swift; sourceTree = "<group>"; };
+		C4B675BA2651F1E6006D01FE /* TestSUISetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSUISetViewModel.swift; sourceTree = "<group>"; };
 		C4D72EF8196E5045009A6B62 /* SetAppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetAppDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -117,6 +143,7 @@
 		C458DC72196E7F980064E0C6 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				C4B675BC2651F4CC006D01FE /* Cards */,
 				C4597628235EA7580079638C /* Main */,
 				C4597627235EA7500079638C /* Summary */,
 			);
@@ -136,7 +163,9 @@
 		C4597627235EA7500079638C /* Summary */ = {
 			isa = PBXGroup;
 			children = (
+				C4B675B22651EC58006D01FE /* SUISummaryViewModel.swift */,
 				C4822E0019F1ECCA00B66A9A /* SummaryCollectionViewCell.swift */,
+				C4B675AA2651E782006D01FE /* SummaryView.swift */,
 				C4822DFE19F1EC0600B66A9A /* SummaryViewController.swift */,
 				C459761B235E98830079638C /* SummaryViewModel.swift */,
 			);
@@ -146,11 +175,11 @@
 		C4597628235EA7580079638C /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				C458DC76196E7F980064E0C6 /* CardCollectionViewCell.swift */,
-				C458DC77196E7F980064E0C6 /* CardSymbolView.swift */,
+				C4B675A12651DF6D006D01FE /* SetView.swift */,
 				C458DC73196E7F980064E0C6 /* SetViewController.storyboard */,
 				C458DC74196E7F980064E0C6 /* SetViewController.swift */,
 				C4597619235E971F0079638C /* SetViewModel.swift */,
+				C4B675B02651EC10006D01FE /* SUISetViewModel.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -170,8 +199,9 @@
 		C459762C235EA7CE0079638C /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
-				C459762E235EA7DE0079638C /* Summary */,
+				C4B675BD2651F4E9006D01FE /* Cards */,
 				C459762D235EA7D70079638C /* Main */,
+				C459762E235EA7DE0079638C /* Summary */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -180,6 +210,7 @@
 			isa = PBXGroup;
 			children = (
 				C4597624235EA3BE0079638C /* TestSetViewModel.swift */,
+				C4B675BA2651F1E6006D01FE /* TestSUISetViewModel.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -187,6 +218,7 @@
 		C459762E235EA7DE0079638C /* Summary */ = {
 			isa = PBXGroup;
 			children = (
+				C4B675B42651ED82006D01FE /* TestSUISummaryViewModel.swift */,
 				C4597621235EA1480079638C /* TestSummaryViewModel.swift */,
 			);
 			path = Summary;
@@ -271,6 +303,29 @@
 				C475E73A1B8EABF500A6CBB8 /* Colors.swift */,
 			);
 			path = Util;
+			sourceTree = "<group>";
+		};
+		C4B675BC2651F4CC006D01FE /* Cards */ = {
+			isa = PBXGroup;
+			children = (
+				C458DC76196E7F980064E0C6 /* CardCollectionViewCell.swift */,
+				C4B675A82651E649006D01FE /* CardGridView.swift */,
+				C4B675AC2651EB9B006D01FE /* CardGridViewModel.swift */,
+				C458DC77196E7F980064E0C6 /* CardSymbolView.swift */,
+				C4B675A42651E576006D01FE /* CardSymbolViewWrapper.swift */,
+				C4B675A62651E5C8006D01FE /* CardView.swift */,
+				C4B675AE2651EBE1006D01FE /* CardViewModel.swift */,
+			);
+			path = Cards;
+			sourceTree = "<group>";
+		};
+		C4B675BD2651F4E9006D01FE /* Cards */ = {
+			isa = PBXGroup;
+			children = (
+				C4B675B82651F0D8006D01FE /* TestCardGridViewModel.swift */,
+				C4B675B62651EF5B006D01FE /* TestCardViewModel.swift */,
+			);
+			path = Cards;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -404,18 +459,27 @@
 			buildActionMask = 2147483647;
 			files = (
 				C475E73B1B8EABF500A6CBB8 /* Colors.swift in Sources */,
+				C4B675AD2651EB9B006D01FE /* CardGridViewModel.swift in Sources */,
 				C458DC7B196E7F980064E0C6 /* CardSymbolView.swift in Sources */,
 				C4D72EF9196E5045009A6B62 /* SetAppDelegate.swift in Sources */,
 				C473CCB6238E126F007DC249 /* DeckManager.swift in Sources */,
 				C4597618235E95A00079638C /* GameManager.swift in Sources */,
 				C458DC79196E7F980064E0C6 /* SetViewController.swift in Sources */,
+				C4B675AF2651EBE1006D01FE /* CardViewModel.swift in Sources */,
 				C458DC7A196E7F980064E0C6 /* CardCollectionViewCell.swift in Sources */,
+				C4B675A52651E576006D01FE /* CardSymbolViewWrapper.swift in Sources */,
 				C459761C235E98830079638C /* SummaryViewModel.swift in Sources */,
 				C4597616235E95830079638C /* SetContainer.swift in Sources */,
+				C4B675A22651DF6D006D01FE /* SetView.swift in Sources */,
+				C4B675B32651EC58006D01FE /* SUISummaryViewModel.swift in Sources */,
 				C4822DFF19F1EC0600B66A9A /* SummaryViewController.swift in Sources */,
+				C4B675B12651EC10006D01FE /* SUISetViewModel.swift in Sources */,
 				C459761A235E971F0079638C /* SetViewModel.swift in Sources */,
 				C458DC70196E7F860064E0C6 /* Card.swift in Sources */,
+				C4B675A92651E649006D01FE /* CardGridView.swift in Sources */,
+				C4B675A72651E5C8006D01FE /* CardView.swift in Sources */,
 				C4822E0119F1ECCA00B66A9A /* SummaryCollectionViewCell.swift in Sources */,
+				C4B675AB2651E782006D01FE /* SummaryView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -425,9 +489,13 @@
 			files = (
 				C473CCBA238E1F57007DC249 /* XCTestCaseHelpers.swift in Sources */,
 				C4597620235EA08A0079638C /* MockGameManager.swift in Sources */,
+				C4B675B92651F0D8006D01FE /* TestCardGridViewModel.swift in Sources */,
 				C473CCBC238E34C7007DC249 /* TestDeckManager.swift in Sources */,
+				C4B675B52651ED82006D01FE /* TestSUISummaryViewModel.swift in Sources */,
+				C4B675BB2651F1E6006D01FE /* TestSUISetViewModel.swift in Sources */,
 				C458DC83196F1C6C0064E0C6 /* TestCard.swift in Sources */,
 				C458DC85196F1D5C0064E0C6 /* TestGameManager.swift in Sources */,
+				C4B675B72651EF5B006D01FE /* TestCardViewModel.swift in Sources */,
 				C4597622235EA1480079638C /* TestSummaryViewModel.swift in Sources */,
 				C473CCB8238E1641007DC249 /* MockDeckManager.swift in Sources */,
 				C4597625235EA3BE0079638C /* TestSetViewModel.swift in Sources */,

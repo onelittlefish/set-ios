@@ -13,7 +13,9 @@ import Yoyo
 enum MockGameManagerMethods {
     case newGame
     case addCards
+    case selectCardAtIndex
     case selectCard
+    case deselectCardAtIndex
     case deselectCard
 }
 
@@ -33,10 +35,18 @@ class MockGameManager: MockObject<MockGameManagerMethods>, GameManagerProtocol {
     }
 
     func selectCard(atIndex index: Int) {
-        _onMethod(.selectCard, args: index)
+        _onMethod(.selectCardAtIndex, args: index)
+    }
+
+    func selectCard(_ card: Card) {
+        _onMethod(.selectCard, args: card)
     }
 
     func deselectCard(atIndex index: Int) {
-        _onMethod(.deselectCard, args: index)
+        _onMethod(.deselectCardAtIndex, args: index)
+    }
+
+    func deselectCard(_ card: Card) {
+        _onMethod(.deselectCard, args: card)
     }
 }

@@ -129,11 +129,11 @@ class TestSetViewModel: XCTestCase {
 
     func testCardSelected() {
         model.selectCard(atIndex: 5)
-        MOAssertArgumentEquals(game.methodReference(.selectCard), 1, 5)
+        MOAssertArgumentEquals(game.methodReference(.selectCardAtIndex), 1, 5)
     }
 
     func testCardDeselected() {
         model.deselectCard(atIndex: 5)
-        MOAssertArgumentEquals(game.methodReference(.deselectCard), 1, 5)
+        MOAssertArgumentEquals(game.methodReference(.deselectCardAtIndex), 1, 5)
     }
 }
